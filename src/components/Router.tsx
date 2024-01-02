@@ -14,6 +14,13 @@ export default function Router() {
         >
           임시 링크
         </NavLink>
+
+        <NavLink
+          className={({ isActive }) => "nav-link" + (isActive ? " click" : "")}
+          to="/about"
+        >
+          소개
+        </NavLink>
       </nav>
 
       <Routes>
