@@ -1,0 +1,11 @@
+.ProfileSideMenu {
+  width: auto;
+  min-width: 20%;
+  text-align: left;
+  list-style: none;
+}
+
+li:hover {
+  background-color: aquamarine;
+  cursor: pointer;
+}
