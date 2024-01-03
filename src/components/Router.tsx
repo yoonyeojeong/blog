@@ -45,7 +45,6 @@ export default function Router() {
       console.log("routePath : ", routePath);
       console.log("routeElement", routeElement);
 
-      // findComponent 함수를 호출하여 해당하는 컴포넌트를 얻어온 후, Route 컴포넌트의 element prop에 전달
       RouteComponentArray.push(
         <Route
           key={`${i}-${j}`}
