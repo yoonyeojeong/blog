@@ -15,8 +15,6 @@ function ProfileBody(props: any) {
   };
 
   let selectedContent;
-  console.log("ProfileBody props : ", props);
-  console.log("ProfileBody selectedContent : ", selectedComponent);
 
   switch (selectedComponent) {
     case '"about"':

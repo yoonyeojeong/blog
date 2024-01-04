@@ -4,7 +4,7 @@ import ProfileAbout from "./pages/ProfileAbout";
 
 function ProfileMain(selectedComponent: any) {
   return (
-    <div id="ProfileMain">
+    <div className="ProfileMain">
       <ProfileAbout />
     </div>
   );

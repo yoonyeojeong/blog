@@ -1,9 +1,10 @@
 .HeaderMenu {
   color: black;
-  margin: 20px;
+  margin: 15px;
   text-align: center;
 }
 
 .HeaderBar {
   text-align: center;
+  width: auto;
 }

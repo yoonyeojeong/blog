@@ -42,8 +42,6 @@ export default function Router() {
         i
       ].values[j].toLowerCase()}`;
       const routeElement = menuInfo[i].values[j];
-      console.log("routePath : ", routePath);
-      console.log("routeElement", routeElement);
 
       RouteComponentArray.push(
         <Route
@@ -61,8 +59,37 @@ export default function Router() {
         <Route path="/" element={<HomeBody />} />
         <Route path="/home/" element={<HomeBody />} />
         {RouteComponentArray}
-        <Route path="/project/about/" element={<ProjectBody />} />
-        <Route path="/study/about/" element={<StudyBody />} />
+        <Route path="/project/about/" element={<ProjectBody props="" />} />
+        <Route
+          path="/project/001/"
+          element={<ProjectBody props="001summary" />}
+        />
+        <Route
+          path="/project/001/summary"
+          element={<ProjectBody props="001summary" />}
+        />
+        <Route
+          path="/project/001/view"
+          element={<ProjectBody props="001view" />}
+        />
+        <Route
+          path="/project/001/code"
+          element={<ProjectBody props="001code" />}
+        />
+        <Route path="/study/about/" element={<StudyBody props="" />} />
+        <Route
+          path="/study/aboutCS/main/"
+          element={<StudyBody props="csmain" />}
+        />
+        <Route
+          path="/study/aboutCS/cs/001"
+          element={<StudyBody props="cs" />}
+        />
+
+        <Route
+          path="/study/aboutCS/aspnet/001"
+          element={<StudyBody props="aspnet" />}
+        />
       </Routes>
     </BrowserRouter>
   );

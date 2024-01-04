@@ -1,5 +1,8 @@
-#StudyMain {
+.StudyMain {
   text-align: center;
-  width: auto;
-  min-width: 70%;
+  max-width: 60%;
+  min-width: 55%;
+  padding: 1%;
+  font-family: "Consolas";
+  margin-left: 5px;
 }

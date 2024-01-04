@@ -1,6 +1,7 @@
 #StudySideMenu {
-  width: auto;
-  min-width: 20%;
+  max-width: 40%;
   text-align: left;
   list-style: none;
+  margin-right: 5px;
+  padding: 0;
 }
