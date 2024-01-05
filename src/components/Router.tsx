@@ -85,7 +85,6 @@ export default function Router() {
           path="/study/aboutCS/cs/001"
           element={<StudyBody props="cs" />}
         />
-
         <Route
           path="/study/aboutCS/aspnet/001"
           element={<StudyBody props="aspnet" />}
