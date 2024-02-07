@@ -5,8 +5,8 @@ import { NavLink } from "react-router-dom";
 function ProjectSideMenu() {
   const createNavLink = (upperMenu: string, index: string) => {
     return (
-      <ul style={{ width: "auto" }}>
-        <li style={{ width: "auto" }}>
+      <ul>
+        <li>
           <NavLink
             className="detailMenu"
             style={({ isActive }) => ({ color: isActive ? "red" : "black" })}
@@ -15,7 +15,7 @@ function ProjectSideMenu() {
             - 개요
           </NavLink>
         </li>
-        <li style={{ width: "auto" }}>
+        <li>
           <NavLink
             className="detailMenu"
             style={({ isActive }) => ({ color: isActive ? "red" : "black" })}
@@ -24,7 +24,7 @@ function ProjectSideMenu() {
             - 화면
           </NavLink>
         </li>
-        <li style={{ width: "auto" }}>
+        <li>
           <NavLink
             className="detailMenu"
             style={({ isActive }) => ({ color: isActive ? "red" : "black" })}
@@ -38,13 +38,12 @@ function ProjectSideMenu() {
   };
 
   const renderUpperMenu = (to: string, title: string) => (
-    <li style={{ width: "auto" }}>
+    <li>
       <NavLink
         className="upperMenu"
         style={({ isActive }) => ({
           fontWeight: isActive ? "bold" : "normal",
           color: isActive ? "blue" : "black",
-          width: "auto",
         })}
         to={to}
       >
@@ -56,14 +55,10 @@ function ProjectSideMenu() {
   return (
     <ul className="ProjectSideMenu">
       {renderUpperMenu("/project/about/", "프로젝트 소개")}
-      <li style={{ width: "auto" }}>
-        {renderUpperMenu("/project/001/", "프로젝트 메뉴1")}
-        {createNavLink("/project", "001")}
-      </li>
-      <li>
-        {renderUpperMenu("/project/002/001", "프로젝트 메뉴2")}
-        {createNavLink("/project", "002")}
-      </li>
+      {renderUpperMenu("/project/001/", "프로젝트 메뉴1")}
+      {createNavLink("/project", "001")}
+      {renderUpperMenu("/project/002/001", "프로젝트 메뉴2")}
+      {createNavLink("/project", "002")}
     </ul>
   );
 }
