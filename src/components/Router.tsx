@@ -57,6 +57,7 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomeBody />} />
+        <Route path="/blog" element={<HomeBody />} />
         <Route path="/home/" element={<HomeBody />} />
         {RouteComponentArray}
         <Route path="/project/about/" element={<ProjectBody props="" />} />

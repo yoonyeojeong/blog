@@ -35,10 +35,7 @@ function ProjectBody({ props }: ProjectBodyProps) {
   return (
     <>
       <Header />
-      <div id="ProjectBodyLayout">
-        <ProjectSideMenu />
-        {component}
-      </div>
+      <div id="ProjectBodyLayout">{component}</div>
     </>
   );
 }
