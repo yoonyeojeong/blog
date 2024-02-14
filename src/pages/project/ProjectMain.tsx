@@ -7,10 +7,8 @@ import { format, subDays } from "date-fns";
 import EXP from "./files/exp.json";
 
 function ProjectMain() {
-  // 식별자 값
-  // 2bc40a8e8eca0a4531460428733c0a31
-  const API_KEY =
-    "test_381cc05b96e9ee7a1875549818bf3685bd2f4d3940406a80165bcfd6df0b2afbc650abfc9d0f6a57bc6b7bdf91c32093";
+  const API_KEY = process.env.NEXON_API_KEY;
+  const TEST_OCID = process.env.NEXON_TEST_OCID;
   const [selectedDate, setSelectedDate] = useState<Date>(
     subDays(new Date(), 1)
   );
