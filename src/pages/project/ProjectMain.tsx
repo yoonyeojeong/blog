@@ -25,6 +25,7 @@ function ProjectMain() {
   const [characterInfo, setCharacterInfo] = useState<any>(null); // 수정: 초기값을 null로 설정
   const [hexaInfo, setHexaInfo] = useState<any>(null);
   const [statInfo, setStatInfo] = useState<any>(null);
+  const [unionInfo, setUnionInfo] = useState<any>(null);
   const [buttonClicked, setButtonClicked] = useState<boolean>(false);
 
   useEffect(() => {
@@ -32,6 +33,13 @@ function ProjectMain() {
       getBasicInfo(characterOcid, format(selectedDate, "yyyy-MM-dd"));
       getHexaInfo(characterOcid, format(selectedDate, "yyyy-MM-dd"));
       getStatInfo(characterOcid, format(selectedDate, "yyyy-MM-dd"));
+      if (characterInfo != null) {
+        getUnionInfo(
+          characterOcid,
+          format(selectedDate, "yyyy-MM-dd"),
+          characterInfo.world_name
+        );
+      }
     }
   }, [urlString, characterOcid, buttonClicked]);
 
@@ -58,8 +66,6 @@ function ProjectMain() {
   }
 
   function getBasicInfo(characterOcid: string, date: string) {
-    console.log("characterOcid : ", characterOcid);
-    console.log("date : ", date);
     const url = `https://open.api.nexon.com/maplestory/v1/character/basic?ocid=${characterOcid}&date=${date}`;
 
     fetch(url, {
@@ -98,6 +104,20 @@ function ProjectMain() {
       .catch((error) => console.error(error));
   }
 
+  function getUnionInfo(characterOcid: string, date: string, world: string) {
+    let worldUrlString = encodeURI(world);
+    const url = `https://open.api.nexon.com/maplestory/v1/ranking/union?date=${date}&world_name=${worldUrlString}&ocid=${characterOcid}&page=1`;
+
+    fetch(url, {
+      headers: {
+        "x-nxopen-api-key": API_KEY,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setUnionInfo(data))
+      .catch((error) => console.error(error));
+  }
+
   function stateChange() {
     setButtonClicked(true);
     setState(!state);
@@ -117,6 +137,14 @@ function ProjectMain() {
       (data) => data.level === numLev
     )?.experience_required;
     return expRequired || 1;
+  }
+
+  function determineMainCharacter(searched: string, union: string): string {
+    if (searched == union) {
+      return "(본캐)";
+    } else {
+      return `(본캐 : ${union})`;
+    }
   }
 
   return (
@@ -155,11 +183,15 @@ function ProjectMain() {
         </button>
       </div>
       <br />
-      {characterInfo && statInfo ? (
+      {characterInfo && statInfo && unionInfo ? (
         <div>
           <img src={characterInfo.character_image} alt="" />
           <br />
-          {characterInfo.world_name} / {characterInfo.character_class}
+          {characterInfo.world_name} / {characterInfo.character_class}&nbsp;
+          {determineMainCharacter(
+            characterInfo.character_name,
+            unionInfo.ranking[0].character_name
+          )}
           <br />
           레벨 : {characterInfo.character_level}
           <br />
