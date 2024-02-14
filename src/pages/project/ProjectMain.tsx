@@ -7,8 +7,9 @@ import { format, subDays } from "date-fns";
 import EXP from "./files/exp.json";
 
 function ProjectMain() {
-  const API_KEY = process.env.NEXON_API_KEY;
-  const TEST_OCID = process.env.NEXON_TEST_OCID;
+  //const API_KEY = "test_381cc05b96e9ee7a1875549818bf3685bd2f4d3940406a80165bcfd6df0b2afbc650abfc9d0f6a57bc6b7bdf91c32093";
+  const API_KEY = process.env.REACT_APP_NEXON_API_KEY;
+  const TEST_OCID = process.env.REACT_APP_NEXON_TEST_OCID;
   const [selectedDate, setSelectedDate] = useState<Date>(
     subDays(new Date(), 1)
   );
@@ -60,7 +61,9 @@ function ProjectMain() {
     })
       .then((response) => response.json())
       .then((data) => setCharacterOcid(data.ocid))
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   function getBasicInfo(characterOcid: string, date: string) {
@@ -73,7 +76,9 @@ function ProjectMain() {
     })
       .then((response) => response.json())
       .then((data) => setCharacterInfo(data)) // 수정: JSON.stringify 사용 제거
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   function getHexaInfo(characterOcid: string, date: string) {
