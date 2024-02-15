@@ -5,6 +5,13 @@ import { NavLink } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, subDays } from "date-fns";
 import EXP from "./files/exp.json";
+import {
+  fetchData,
+  fetchHexaInfo,
+  fetchStatInfo,
+  fetchUnionInfo,
+  fetchBasicInfo,
+} from "../../functions/getNexonApi";
 
 function ProjectMain() {
   //const API_KEY = "test_381cc05b96e9ee7a1875549818bf3685bd2f4d3940406a80165bcfd6df0b2afbc650abfc9d0f6a57bc6b7bdf91c32093";
@@ -29,14 +36,27 @@ function ProjectMain() {
 
   useEffect(() => {
     if (urlString !== "") {
-      getBasicInfo(characterOcid, format(selectedDate, "yyyy-MM-dd"));
-      getHexaInfo(characterOcid, format(selectedDate, "yyyy-MM-dd"));
-      getStatInfo(characterOcid, format(selectedDate, "yyyy-MM-dd"));
+      fetchBasicInfo(
+        characterOcid,
+        format(selectedDate, "yyyy-MM-dd"),
+        setCharacterInfo
+      );
+      fetchHexaInfo(
+        characterOcid,
+        format(selectedDate, "yyyy-MM-dd"),
+        setHexaInfo
+      );
+      fetchStatInfo(
+        characterOcid,
+        format(selectedDate, "yyyy-MM-dd"),
+        setStatInfo
+      );
       if (characterInfo != null) {
-        getUnionInfo(
+        fetchUnionInfo(
           characterOcid,
           format(selectedDate, "yyyy-MM-dd"),
-          characterInfo.world_name
+          characterInfo.world_name,
+          setUnionInfo
         );
       }
     }
@@ -64,61 +84,6 @@ function ProjectMain() {
       .catch((error) => {
         console.error(error);
       });
-  }
-
-  function getBasicInfo(characterOcid: string, date: string) {
-    const url = `https://open.api.nexon.com/maplestory/v1/character/basic?ocid=${characterOcid}&date=${date}`;
-
-    fetch(url, {
-      headers: {
-        "x-nxopen-api-key": API_KEY,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setCharacterInfo(data)) // 수정: JSON.stringify 사용 제거
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  function getHexaInfo(characterOcid: string, date: string) {
-    const url = `https://open.api.nexon.com/maplestory/v1/character/hexamatrix?ocid=${characterOcid}&date=${date}`;
-
-    fetch(url, {
-      headers: {
-        "x-nxopen-api-key": API_KEY,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setHexaInfo(data)) // 수정: JSON.stringify 사용 제거
-      .catch((error) => console.error(error));
-  }
-
-  function getStatInfo(characterOcid: string, date: string) {
-    const url = `https://open.api.nexon.com/maplestory/v1/character/stat?ocid=${characterOcid}&date=${date}`;
-
-    fetch(url, {
-      headers: {
-        "x-nxopen-api-key": API_KEY,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setStatInfo(data)) // 수정: JSON.stringify 사용 제거
-      .catch((error) => console.error(error));
-  }
-
-  function getUnionInfo(characterOcid: string, date: string, world: string) {
-    let worldUrlString = encodeURI(world);
-    const url = `https://open.api.nexon.com/maplestory/v1/ranking/union?date=${date}&world_name=${worldUrlString}&ocid=${characterOcid}&page=1`;
-
-    fetch(url, {
-      headers: {
-        "x-nxopen-api-key": API_KEY,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setUnionInfo(data))
-      .catch((error) => console.error(error));
   }
 
   function stateChange() {
