@@ -1,3 +1,5 @@
+const baseUrl = "https://open.api.nexon.com/maplestory/v1/";
+
 function fetchWithCallback(url: string, callback: (data: any) => void) {
   const API_KEY = process.env.REACT_APP_NEXON_API_KEY;
 
@@ -11,43 +13,29 @@ function fetchWithCallback(url: string, callback: (data: any) => void) {
     .catch((error) => console.error(error));
 }
 
-export function fetchData(url: string, callback: (data: any) => void) {
-  fetchWithCallback(url, callback);
+interface FetchInfoParams {
+  category: string;
+  type: string;
+  characterOcid: string;
+  date: string;
+  callback: (data: any) => void;
+  additionalParams?: Record<string, string>;
 }
 
-export function fetchBasicInfo(
-  characterOcid: string,
-  date: string,
-  callback: (data: any) => void
-) {
-  let url = `https://open.api.nexon.com/maplestory/v1/character/basic?ocid=${characterOcid}&date=${date}`;
-  fetchWithCallback(url, callback);
-}
+export function fetchInfo({
+  category,
+  type,
+  characterOcid,
+  date,
+  callback,
+  additionalParams = {},
+}: FetchInfoParams) {
+  let url = `${baseUrl}${category}/${type}?ocid=${characterOcid}&date=${date}`;
+  for (const [param, value] of Object.entries(additionalParams)) {
+    if (value) {
+      url += `&${param}=${value}`;
+    }
+  }
 
-export function fetchHexaInfo(
-  characterOcid: string,
-  date: string,
-  callback: (data: any) => void
-) {
-  let url = `https://open.api.nexon.com/maplestory/v1/character/hexamatrix?ocid=${characterOcid}&date=${date}`;
-  fetchWithCallback(url, callback);
-}
-
-export function fetchStatInfo(
-  characterOcid: string,
-  date: string,
-  callback: (data: any) => void
-) {
-  let url = `https://open.api.nexon.com/maplestory/v1/character/stat?ocid=${characterOcid}&date=${date}`;
-  fetchWithCallback(url, callback);
-}
-
-export function fetchUnionInfo(
-  characterOcid: string,
-  date: string,
-  worldUrlString: string,
-  callback: (data: any) => void
-) {
-  let url = `https://open.api.nexon.com/maplestory/v1/ranking/union?date=${date}&world_name=${worldUrlString}&ocid=${characterOcid}&page=1`;
   fetchWithCallback(url, callback);
 }

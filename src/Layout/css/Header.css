@@ -7,5 +7,6 @@
 .HeaderBar {
   text-align: center;
   width: auto;
+  min-width: 600px;
   margin-bottom: 2%;
 }

@@ -24,7 +24,6 @@ function ProfileBody(props: any) {
       selectedContent = null;
       break;
   }
-  console.log("ProfileBody selectedContent", selectedContent);
   return (
     <>
       <Header />

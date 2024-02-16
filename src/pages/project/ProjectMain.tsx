@@ -5,13 +5,7 @@ import { NavLink } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, subDays } from "date-fns";
 import EXP from "./files/exp.json";
-import {
-  fetchData,
-  fetchHexaInfo,
-  fetchStatInfo,
-  fetchUnionInfo,
-  fetchBasicInfo,
-} from "../../functions/getNexonApi";
+import { fetchInfo } from "../../functions/getNexonApi";
 
 function ProjectMain() {
   //const API_KEY = "test_381cc05b96e9ee7a1875549818bf3685bd2f4d3940406a80165bcfd6df0b2afbc650abfc9d0f6a57bc6b7bdf91c32093";
@@ -36,28 +30,39 @@ function ProjectMain() {
 
   useEffect(() => {
     if (urlString !== "") {
-      fetchBasicInfo(
+      fetchInfo({
+        category: "character",
+        type: "basic",
         characterOcid,
-        format(selectedDate, "yyyy-MM-dd"),
-        setCharacterInfo
-      );
-      fetchHexaInfo(
+        date: format(selectedDate, "yyyy-MM-dd"),
+        callback: setCharacterInfo,
+      });
+
+      fetchInfo({
+        category: "character",
+        type: "hexamatrix",
         characterOcid,
-        format(selectedDate, "yyyy-MM-dd"),
-        setHexaInfo
-      );
-      fetchStatInfo(
+        date: format(selectedDate, "yyyy-MM-dd"),
+        callback: setHexaInfo,
+      });
+
+      fetchInfo({
+        category: "character",
+        type: "stat",
         characterOcid,
-        format(selectedDate, "yyyy-MM-dd"),
-        setStatInfo
-      );
+        date: format(selectedDate, "yyyy-MM-dd"),
+        callback: setStatInfo,
+      });
+
       if (characterInfo != null) {
-        fetchUnionInfo(
+        fetchInfo({
+          category: "ranking",
+          type: "union",
           characterOcid,
-          format(selectedDate, "yyyy-MM-dd"),
-          characterInfo.world_name,
-          setUnionInfo
-        );
+          date: format(selectedDate, "yyyy-MM-dd"),
+          callback: setUnionInfo,
+          additionalParams: { world_name: characterInfo.world_name },
+        });
       }
     }
   }, [urlString, characterOcid, buttonClicked]);
@@ -115,41 +120,48 @@ function ProjectMain() {
     }
   }
 
+  const handleSubmit = (event: any) => {
+    event.preventDefault(); // 폼 제출 기본 동작 방지
+    stateChange(); // 폼이 제출되면 stateChange 함수 호출
+  };
+
   return (
-    <div
-      className="ProjectMain"
-      style={{ textAlign: "left", paddingLeft: "10%", paddingRight: "10%" }}
-    >
-      <div className="input-group mb-3" style={{ minWidth: "300px" }}>
-        <span className="input-group-text" id="basic-addon1">
-          기준일
-        </span>
-        <DatePicker
-          className="form-control"
-          dateFormat="yyyy-MM-dd" // 날짜 형태
-          shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
-          maxDate={subDays(new Date(), 1)} // maxDate 이후 날짜 선택 불가
-          selected={selectedDate}
-          onChange={(date) => setSelectedDate(date != null ? date : new Date())}
-        />
-      </div>
-      <div className="input-group mb-3" style={{ minWidth: "300px" }}>
-        <span className="input-group-text" id="basic-addon1">
-          닉네임
-        </span>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="닉네임을 입력하세요"
-          aria-label="Username"
-          aria-des
-          onChange={(event) => setCharacterName(event.target.value)}
-          style={{ maxWidth: "200px" }}
-        />
-        <button className="btn btn-secondary" onClick={stateChange}>
-          조회하기
-        </button>
-      </div>
+    <div className="ProjectMain" style={{ textAlign: "left" }}>
+      <form onSubmit={handleSubmit}>
+        <div className="input-group mb-3" style={{ minWidth: "300px" }}>
+          <span className="input-group-text" id="basic-addon1">
+            기준일
+          </span>
+          <DatePicker
+            className="form-control"
+            dateFormat="yyyy-MM-dd" // 날짜 형태
+            shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
+            maxDate={subDays(new Date(), 1)} // maxDate 이후 날짜 선택 불가
+            selected={selectedDate}
+            onChange={(date) =>
+              setSelectedDate(date != null ? date : new Date())
+            }
+          />
+        </div>
+        <div className="input-group mb-3" style={{ minWidth: "300px" }}>
+          <span className="input-group-text" id="basic-addon1">
+            닉네임
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="닉네임을 입력하세요"
+            id="username"
+            name="username"
+            aria-label="Username"
+            onChange={(event) => setCharacterName(event.target.value)}
+            style={{ maxWidth: "200px" }}
+          />
+          <button className="btn btn-secondary" type="submit">
+            조회하기
+          </button>
+        </div>
+      </form>
       <br />
       {characterInfo && statInfo && unionInfo ? (
         <div>

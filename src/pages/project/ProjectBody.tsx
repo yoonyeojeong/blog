@@ -5,6 +5,7 @@ import ProjectSideMenu from "./ProjectSideMenu";
 import Project001Summary from "./pages/001/Project001Summary";
 import Project001View from "./pages/001/Project001View";
 import Project001Code from "./pages/001/Project001Code";
+import "./css/ProjectBody.css";
 
 interface ProjectBodyProps {
   props: string;
@@ -35,7 +36,10 @@ function ProjectBody({ props }: ProjectBodyProps) {
   return (
     <>
       <Header />
-      <div id="ProjectBodyLayout">{component}</div>
+      <div className="ProjectBodyLayout">
+        <ProjectSideMenu />
+        {component}
+      </div>
     </>
   );
 }

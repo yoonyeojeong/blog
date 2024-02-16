@@ -2,13 +2,22 @@ import React from "react";
 import "./css/StudySideMenu.css";
 import { NavLink } from "react-router-dom";
 import ListGroupItem from "../../components/ListGroupItem";
+import styled from "@emotion/styled";
 
 function StudySideMenu() {
+  const SideStyle = styled.ul`
+    max-width: 40%;
+    text-align: left;
+    list-style: none;
+    margin-right: 5px;
+    padding-left: 1%;
+  `;
   return (
-    <ul id="StudySideMenu" className="list-group list-group-flush">
+    <SideStyle className="list-group list-group-flush">
       <ListGroupItem>
         <ul style={{ margin: "0", padding: "0" }}>
           <NavLink
+            className="upperMenu"
             style={({ isActive }) => ({
               fontWeight: isActive ? "bold" : "normal",
               color: isActive ? "blue" : "black",
@@ -16,27 +25,29 @@ function StudySideMenu() {
             })}
             to={"/study/aboutCS/main/"}
           >
-            <li className="upperMenu">C#</li>
+            <li>C#</li>
           </NavLink>
         </ul>
         <ul>
           <NavLink
+            className="detailMenu"
             style={({ isActive }) => ({
               color: isActive ? "red" : "black",
               textDecoration: "none",
             })}
             to={`/study/aboutCS/CS/001`}
           >
-            <li className="detailMenu">- C#</li>
+            <li>- C#</li>
           </NavLink>
           <NavLink
+            className="detailMenu"
             style={({ isActive }) => ({
               color: isActive ? "red" : "black",
               textDecoration: "none",
             })}
             to={`/study/aboutCS/aspnet/001`}
           >
-            <li className="detailMenu">- ASP.NET</li>
+            <li>- ASP.NET</li>
           </NavLink>
         </ul>
       </ListGroupItem>
@@ -44,7 +55,7 @@ function StudySideMenu() {
       <ListGroupItem>임시 스터디 목록3</ListGroupItem>
       <ListGroupItem>임시 스터디 목록4</ListGroupItem>
       <ListGroupItem>임시 스터디 목록 5</ListGroupItem>
-    </ul>
+    </SideStyle>
   );
 }
 
