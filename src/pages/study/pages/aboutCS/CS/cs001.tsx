@@ -67,6 +67,7 @@ function Cs001() {
         <a
           href="https://devstarsj.github.io/development/2016/06/11/CSharp.NewtonJSON/"
           target="_blank"
+          rel="noreferrer"
         >
           DevNote Blog
         </a>
@@ -74,6 +75,7 @@ function Cs001() {
         <a
           href="https://learn.microsoft.com/ko-kr/dotnet/standard/serialization/system-text-json/migrate-from-newtonsoft?pivots=dotnet-8-0"
           target="_blank"
+          rel="noreferrer"
         >
           MS Document
         </a>

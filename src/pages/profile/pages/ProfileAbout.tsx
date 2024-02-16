@@ -1,7 +1,7 @@
-import React, { ReactNode, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../css/ProfileAbout.css";
 import Photo from "../files/photo.jpg";
-import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { Container, Table, Button } from "react-bootstrap";
 import styled from "@emotion/styled";
 import clipboardCopy from "clipboard-copy";
 
@@ -84,7 +84,7 @@ function ProfileAbout() {
         <img src={Photo} alt="" style={{ width: "150px", margin: "2%" }} />
         <Table
           bordered={false}
-          style={{ width: "500px", margin: "2% auto", verticalAlign: "middle" }}
+          style={{ minWidth: "500px", margin: "0", verticalAlign: "middle" }}
         >
           <tbody>
             <tr>
