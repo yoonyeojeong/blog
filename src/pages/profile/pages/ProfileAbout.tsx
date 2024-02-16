@@ -112,7 +112,7 @@ function ProfileAbout() {
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() => copyToClipboard("uoi798@naver.com")}
+                  onClick={() => copyToClipboard("uoi798@gmail.com")}
                 >
                   복사
                 </Button>
