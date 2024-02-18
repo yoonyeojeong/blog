@@ -178,11 +178,7 @@ function ProjectMain() {
           ) || ""}
           <br />
           경험치 : {addComma(parseInt(characterInfo.character_exp))}{" "}
-          {`(${(
-            (parseInt(characterInfo.character_exp) /
-              (findExp(characterInfo.character_level) || 1)) *
-            100
-          ).toFixed(3)}%)`}
+          {`(${characterInfo.character_exp_rate}%)`}
           <br />
           길드 : {characterInfo.character_guild_name}
         </div>

@@ -81,7 +81,7 @@ function ProfileAbout() {
     <Container style={{ textAlign: "left", fontFamily: "나눔고딕" }}>
       <h2>기본 프로필</h2>
       <DivStyle>
-        <img src={Photo} alt="" style={{ width: "150px", margin: "2%" }} />
+        <img src={Photo} alt="" style={{ width: "150px", margin: "0 2%" }} />
         <Table
           bordered={false}
           style={{ minWidth: "500px", margin: "0", verticalAlign: "middle" }}

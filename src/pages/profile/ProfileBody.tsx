@@ -27,10 +27,7 @@ function ProfileBody(props: any) {
   return (
     <>
       <Header />
-      <div id="ProfileBodyLayout">
-        <ProfileSideMenu />
-        {selectedContent}
-      </div>
+      <div id="ProfileBodyLayout">{selectedContent}</div>
     </>
   );
 }
