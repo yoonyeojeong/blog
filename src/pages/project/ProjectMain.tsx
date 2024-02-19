@@ -7,7 +7,6 @@ import EXP from "./files/exp.json";
 import { fetchInfo } from "../../functions/getNexonApi";
 
 function ProjectMain() {
-  //const API_KEY = "test_381cc05b96e9ee7a1875549818bf3685bd2f4d3940406a80165bcfd6df0b2afbc650abfc9d0f6a57bc6b7bdf91c32093";
   const API_KEY = process.env.REACT_APP_NEXON_API_KEY;
   const [selectedDate, setSelectedDate] = useState<Date>(
     subDays(new Date(), 1)
@@ -21,45 +20,57 @@ function ProjectMain() {
   const [statInfo, setStatInfo] = useState<any>(null);
   const [unionInfo, setUnionInfo] = useState<any>(null);
   const [buttonClicked, setButtonClicked] = useState<boolean>(false);
+  const [instruction, setInstruction] = useState<any>(
+    <>닉네임을 입력하고 조회하기 버튼을 누르세요</>
+  );
 
   useEffect(() => {
     if (urlString !== "") {
-      fetchInfo({
-        category: "character",
-        type: "basic",
-        characterOcid,
-        date: format(selectedDate, "yyyy-MM-dd"),
-        callback: setCharacterInfo,
-      });
-
-      fetchInfo({
-        category: "character",
-        type: "hexamatrix",
-        characterOcid,
-        date: format(selectedDate, "yyyy-MM-dd"),
-        callback: setHexaInfo,
-      });
-
-      fetchInfo({
-        category: "character",
-        type: "stat",
-        characterOcid,
-        date: format(selectedDate, "yyyy-MM-dd"),
-        callback: setStatInfo,
-      });
-
-      if (characterInfo != null) {
+      Promise.all([
         fetchInfo({
-          category: "ranking",
-          type: "union",
+          category: "character",
+          type: "basic",
           characterOcid,
           date: format(selectedDate, "yyyy-MM-dd"),
-          callback: setUnionInfo,
-          additionalParams: { world_name: characterInfo.world_name },
-        });
-      }
+          callback: setCharacterInfo,
+        }),
+        fetchInfo({
+          category: "character",
+          type: "hexamatrix",
+          characterOcid,
+          date: format(selectedDate, "yyyy-MM-dd"),
+          callback: setHexaInfo,
+        }),
+        fetchInfo({
+          category: "character",
+          type: "stat",
+          characterOcid,
+          date: format(selectedDate, "yyyy-MM-dd"),
+          callback: setStatInfo,
+        }),
+      ]).then(() => {
+        // 상태 업데이트 이후 characterInfo 값을 확인하고 이에 따라 alert 창을 띄웁니다.
+        if (characterInfo == null) {
+          setInstruction(
+            <>
+              존재하지 않는 캐릭터 입니다. <br /> <br />
+              2023년 12월 21일 이후 접속기록이 있는 캐릭터만 조회가능합니다.
+            </>
+          );
+        } else {
+          fetchInfo({
+            category: "ranking",
+            type: "union",
+            characterOcid,
+            date: format(selectedDate, "yyyy-MM-dd"),
+            callback: setUnionInfo,
+            additionalParams: { world_name: characterInfo.world_name },
+          });
+        }
+      });
     }
   }, [urlString, characterOcid, buttonClicked]);
+
   useEffect(() => {
     if (buttonClicked && characterName !== "") {
       setCharacterCode();
@@ -183,7 +194,7 @@ function ProjectMain() {
           길드 : {characterInfo.character_guild_name}
         </div>
       ) : (
-        "닉네임을 입력하고 조회하기 버튼을 누르세요"
+        instruction
       )}
       <br />
       {hexaInfo &&

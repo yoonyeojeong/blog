@@ -7,6 +7,7 @@ import ProfileAbout from "../pages/profile/pages/ProfileAbout";
 import ProjectBody from "../pages/project/ProjectBody";
 import StudyBody from "../pages/study/StudyBody";
 import MenuInfo from "../json/sidemenu.json";
+import NotFound from "../pages/fixed/NotFound";
 
 export default function Router() {
   const menuInfo = MenuInfo.map((menuItem) => {
@@ -90,6 +91,7 @@ export default function Router() {
           path="/study/aboutCS/aspnet/001"
           element={<StudyBody props="aspnet" />}
         />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

@@ -4,6 +4,7 @@ import Photo from "../files/photo.jpg";
 import { Container, Table, Button } from "react-bootstrap";
 import styled from "@emotion/styled";
 import clipboardCopy from "clipboard-copy";
+import { Link } from "react-router-dom";
 
 interface ActivityRowProps {
   activityName: string;
@@ -118,6 +119,20 @@ function ProfileAbout() {
                 </Button>
               </td>
             </tr>
+            <tr>
+              <td>
+                <strong>GitHub</strong>
+              </td>
+              <td>
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={"https://github.com/yoonyeojeong?tab=repositories"}
+                  target="_blank"
+                >
+                  https://github.com/yoonyeojeong
+                </Link>
+              </td>
+            </tr>
           </tbody>
         </Table>
       </DivStyle>
@@ -153,6 +168,38 @@ function ProfileAbout() {
             <td style={{ textAlign: "right", verticalAlign: "top" }}>
               2008.03 ~ 2011.02 (졸업)
             </td>
+          </tr>
+        </tbody>
+      </Table>
+      <br />
+
+      <h2>수상경력</h2>
+      <Table
+        bordered={false}
+        style={{ margin: "2% auto", verticalAlign: "middle" }}
+      >
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td rowSpan={3} style={{ textAlign: "center" }}>
+              교내 수학·과학 경시대회
+            </td>
+            <td>
+              <strong> 교내 수학 경시대회</strong> <br />
+              <span>동상</span>
+            </td>
+            <td style={{ textAlign: "right", verticalAlign: "top" }}>2009</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>교내 과학 경시대회</strong> <br />
+              <span>은상</span>
+            </td>
+            <td style={{ textAlign: "right", verticalAlign: "top" }}>2010</td>
           </tr>
         </tbody>
       </Table>
