@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format, subDays } from "date-fns";
 import EXP from "./files/exp.json";
 import { fetchInfo } from "../../functions/getNexonApi";
+import NoResult from "./files/noresult.png";
 
 function ProjectMain() {
   const API_KEY = process.env.REACT_APP_NEXON_API_KEY;
@@ -53,8 +54,11 @@ function ProjectMain() {
         if (characterInfo == null) {
           setInstruction(
             <>
+              <img src={NoResult} alt="" />
+              <br />
               존재하지 않는 캐릭터 입니다. <br /> <br />
-              2023년 12월 21일 이후 접속기록이 있는 캐릭터만 조회가능합니다.
+              2023년 12월 21일 이후 접속기록이 있는 <br />
+              캐릭터만 조회가능합니다.
             </>
           );
         } else {
@@ -167,7 +171,7 @@ function ProjectMain() {
         </div>
       </form>
       <br />
-      {characterInfo && statInfo && unionInfo ? (
+      {characterInfo && statInfo && unionInfo && unionInfo.ranking ? (
         <div>
           <img src={characterInfo.character_image} alt="" />
           <br />
