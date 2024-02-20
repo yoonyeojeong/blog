@@ -6,6 +6,7 @@ import { format, subDays } from "date-fns";
 import EXP from "./files/exp.json";
 import { fetchInfo } from "../../functions/getNexonApi";
 import NoResult from "./files/noresult.png";
+import GoGo from "./files/gogo.gif";
 
 function ProjectMain() {
   const API_KEY = process.env.REACT_APP_NEXON_API_KEY;
@@ -22,7 +23,14 @@ function ProjectMain() {
   const [unionInfo, setUnionInfo] = useState<any>(null);
   const [buttonClicked, setButtonClicked] = useState<boolean>(false);
   const [instruction, setInstruction] = useState<any>(
-    <>닉네임을 입력하고 조회하기 버튼을 누르세요</>
+    <>
+      닉네임을 입력하고 조회하기 버튼을 누르세요.
+      <br />
+      영문 닉네임은 대소문자를 구분합니다.
+      <br />
+      <br />
+      <img src={GoGo} alt="" />
+    </>
   );
 
   useEffect(() => {

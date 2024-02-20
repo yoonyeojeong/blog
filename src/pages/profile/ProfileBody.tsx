@@ -4,6 +4,7 @@ import ProfileSideMenu from "./ProfileSideMenu";
 import ProfileMain from "./ProfileMain";
 import Header from "../../Layout/Header";
 import ProfileAbout from "./pages/ProfileAbout";
+import TempPage from "./pages/Temp";
 
 function ProfileBody(props: any) {
   const [selectedComponent, setSelectedComponent] = useState(
@@ -27,7 +28,9 @@ function ProfileBody(props: any) {
   return (
     <>
       <Header />
-      <div id="ProfileBodyLayout">{selectedContent}</div>
+      <div id="ProfileBodyLayout">
+        <TempPage />
+      </div>
     </>
   );
 }

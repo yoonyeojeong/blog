@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "../css/ProfileAbout.css";
 import Photo from "../files/photo.jpg";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Table, Button, Modal } from "react-bootstrap";
 import styled from "@emotion/styled";
 import clipboardCopy from "clipboard-copy";
 import { Link } from "react-router-dom";
+import Awards from "../files/awards.jpg";
 
 interface ActivityRowProps {
   activityName: string;
@@ -14,6 +15,15 @@ interface ActivityRowProps {
 }
 function ProfileAbout() {
   const [activitiesCount, setActivitiesCount] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
   const DivStyle = styled.div`
     display: flex;
     flex-direction: row;
@@ -79,199 +89,223 @@ function ProfileAbout() {
   const age: number = calculateAge(birthdate, today);
 
   return (
-    <Container style={{ textAlign: "left", fontFamily: "나눔고딕" }}>
-      <h2>기본 프로필</h2>
-      <DivStyle>
-        <img src={Photo} alt="" style={{ width: "150px", margin: "0 2%" }} />
+    <>
+      <Container style={{ textAlign: "left", fontFamily: "나눔고딕" }}>
+        <h2>기본 프로필</h2>
+        <DivStyle>
+          <img src={Photo} alt="" style={{ width: "150px", margin: "0 2%" }} />
+          <Table
+            bordered={false}
+            style={{ minWidth: "500px", margin: "0", verticalAlign: "middle" }}
+          >
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>이름</strong>
+                </td>
+                <td>윤여정 (Yoon Yeojoeng, 尹汝正)</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>생년월일</strong>
+                </td>
+                <td>1992.08.14 (만 {age}세)</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>E-mail</strong>
+                </td>
+                <td>
+                  uoi798@gmail.com{" "}
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => copyToClipboard("uoi798@gmail.com")}
+                  >
+                    복사
+                  </Button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>GitHub</strong>
+                </td>
+                <td>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={"https://github.com/yoonyeojeong?tab=repositories"}
+                    target="_blank"
+                  >
+                    https://github.com/yoonyeojeong
+                  </Link>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </DivStyle>
+        <br />
+        <h2>학력정보</h2>
         <Table
           bordered={false}
-          style={{ minWidth: "500px", margin: "0", verticalAlign: "middle" }}
+          style={{ margin: "2% auto", verticalAlign: "middle" }}
         >
           <tbody>
             <tr>
               <td></td>
               <td></td>
+              <td></td>
             </tr>
             <tr>
-              <td>
-                <strong>이름</strong>
-              </td>
-              <td>윤여정 (Yoon Yeojoeng, 尹汝正)</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>생년월일</strong>
-              </td>
-              <td>1992.08.14 (만 {age}세)</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>E-mail</strong>
+              <td rowSpan={3} style={{ textAlign: "center" }}>
+                학력
               </td>
               <td>
-                uoi798@gmail.com{" "}
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => copyToClipboard("uoi798@gmail.com")}
-                >
-                  복사
-                </Button>
+                <strong> 인하대학교 (4년제)</strong> <br />
+                <span>전자공학과</span>
+              </td>
+              <td style={{ textAlign: "right", verticalAlign: "top" }}>
+                2011.03 ~ 2018.08 (졸업)
               </td>
             </tr>
             <tr>
               <td>
-                <strong>GitHub</strong>
+                <strong>대전 대신고등학교</strong> <br />
+                <span>이과계열</span>
               </td>
-              <td>
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to={"https://github.com/yoonyeojeong?tab=repositories"}
-                  target="_blank"
-                >
-                  https://github.com/yoonyeojeong
-                </Link>
+              <td style={{ textAlign: "right", verticalAlign: "top" }}>
+                2008.03 ~ 2011.02 (졸업)
               </td>
             </tr>
           </tbody>
         </Table>
-      </DivStyle>
-      <br />
-      <h2>학력정보</h2>
-      <Table
-        bordered={false}
-        style={{ margin: "2% auto", verticalAlign: "middle" }}
-      >
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td rowSpan={3} style={{ textAlign: "center" }}>
-              학력
-            </td>
-            <td>
-              <strong> 인하대학교 (4년제)</strong> <br />
-              <span>전자공학과</span>
-            </td>
-            <td style={{ textAlign: "right", verticalAlign: "top" }}>
-              2011.03 ~ 2018.08 (졸업)
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>대전 대신고등학교</strong> <br />
-              <span>이과계열</span>
-            </td>
-            <td style={{ textAlign: "right", verticalAlign: "top" }}>
-              2008.03 ~ 2011.02 (졸업)
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-      <br />
+        <br />
 
-      <h2>수상경력</h2>
-      <Table
-        bordered={false}
-        style={{ margin: "2% auto", verticalAlign: "middle" }}
-      >
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td rowSpan={3} style={{ textAlign: "center" }}>
-              교내 수학·과학 경시대회
-            </td>
-            <td>
-              <strong> 교내 수학 경시대회</strong> <br />
-              <span>동상</span>
-            </td>
-            <td style={{ textAlign: "right", verticalAlign: "top" }}>2009</td>
-          </tr>
-          <tr>
-            <td>
-              <strong>교내 과학 경시대회</strong> <br />
-              <span>은상</span>
-            </td>
-            <td style={{ textAlign: "right", verticalAlign: "top" }}>2010</td>
-          </tr>
-        </tbody>
-      </Table>
-      <br />
-      <h2>활동 / 경험</h2>
-      <Table style={{ margin: "2% auto", verticalAlign: "middle" }}>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td
-              rowSpan={activitiesCount}
-              style={{ width: "15%", textAlign: "center" }}
-            >
-              대내외활동
-            </td>
+        <h2>수상경력</h2>
+        <Table
+          bordered={false}
+          style={{ margin: "2% auto", verticalAlign: "middle" }}
+        >
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td rowSpan={3} style={{ textAlign: "center" }}>
+                교내 수학·과학 경시대회 <br />
+                <span
+                  style={{ color: "blue", cursor: "pointer" }}
+                  onClick={handleModalOpen}
+                >
+                  [보기]
+                </span>
+              </td>
+              <td>
+                <strong> 교내 수학 경시대회</strong> <br />
+                <span>동상</span>
+              </td>
+              <td style={{ textAlign: "right", verticalAlign: "top" }}>2009</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>교내 과학 경시대회</strong> <br />
+                <span>은상</span>
+              </td>
+              <td style={{ textAlign: "right", verticalAlign: "top" }}>2010</td>
+            </tr>
+          </tbody>
+        </Table>
+        <br />
+        <h2>활동 / 경험</h2>
+        <Table style={{ margin: "2% auto", verticalAlign: "middle" }}>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td
+                rowSpan={activitiesCount}
+                style={{ width: "15%", textAlign: "center" }}
+              >
+                대내외활동
+              </td>
 
-            <ActivityRow
-              activityName="팀 화이트 (6, 7기)"
-              organization="한국소비자 포럼"
-            >
-              한국 소비자포럼에서 주관하는 바른 소비자 활동으로, <br />
-              6기에서는 브랜드 대상 후보 선정(소비자 평가단)을 하는 과제에서{" "}
-              <br />
-              발표 및 자료조사를 맡았고 7기에서는 CSR마케팅 공모전에
-              <br />
-              참가하여(입선) 메인 주제 제안 및 발표를 맡았습니다.
-            </ActivityRow>
-          </tr>
-          <tr>
-            <ActivityRow activityName="어반케어" organization="이웃사랑 UCM">
-              인천광역시 대학생 봉사단입니다. <br /> 우수 할동 단원으로
-              선정되기도 하였습니다.
-            </ActivityRow>
-          </tr>
-          <tr>
-            <ActivityRow activityName="감성기타" organization="교내소모임">
-              교내 기타연주 소모임으로 부회장을 맡았으며, <br /> 주로 모임장소
-              기안을 잡는 역할을 하였습니다.
-            </ActivityRow>
-          </tr>
-          <tr>
-            <ActivityRow activityName="활동명" organization="활동기관">
-              활동내용
-            </ActivityRow>
-          </tr>
-          <tr>
-            <ActivityRow activityName="활동명" organization="활동기관">
-              활동내용
-            </ActivityRow>
-          </tr>
-          <tr>
-            <ActivityRow activityName="활동명" organization="활동기관">
-              활동내용
-            </ActivityRow>
-          </tr>
-          <tr>
-            <ActivityRow activityName="활동명" organization="활동기관">
-              활동내용
-            </ActivityRow>
-          </tr>
-          <tr>
-            <ActivityRow activityName="활동명" organization="활동기관">
-              활동내용
-            </ActivityRow>
-          </tr>
-        </tbody>
-      </Table>
-    </Container>
+              <ActivityRow
+                activityName="팀 화이트"
+                organization="한국소비자 포럼"
+              >
+                한국 소비자포럼에서 주관하는 바른 소비자 활동으로, <br />
+                6기에서는 브랜드 대상 후보 선정(소비자 평가단)을 하는 과제에서{" "}
+                <br />
+                발표 및 자료조사를 맡았고 7기에서는 CSR마케팅 공모전에
+                <br />
+                참가하여(입선) 메인 주제 제안 및 발표를 맡았습니다.
+              </ActivityRow>
+            </tr>
+            <tr>
+              <ActivityRow activityName="어반케어" organization="이웃사랑 UCM">
+                인천광역시 대학생 봉사단입니다. <br /> 우수 할동 단원으로
+                선정되기도 하였습니다.
+              </ActivityRow>
+            </tr>
+            <tr>
+              <ActivityRow activityName="감성기타" organization="교내소모임">
+                교내 기타연주 소모임으로 부회장을 맡았으며, <br /> 주로 모임장소
+                기안을 잡는 역할을 하였습니다.
+              </ActivityRow>
+            </tr>
+            <tr>
+              <ActivityRow activityName="활동명" organization="활동기관">
+                활동내용
+              </ActivityRow>
+            </tr>
+            <tr>
+              <ActivityRow activityName="활동명" organization="활동기관">
+                활동내용
+              </ActivityRow>
+            </tr>
+            <tr>
+              <ActivityRow activityName="활동명" organization="활동기관">
+                활동내용
+              </ActivityRow>
+            </tr>
+            <tr>
+              <ActivityRow activityName="활동명" organization="활동기관">
+                활동내용
+              </ActivityRow>
+            </tr>
+            <tr>
+              <ActivityRow activityName="활동명" organization="활동기관">
+                활동내용
+              </ActivityRow>
+            </tr>
+          </tbody>
+        </Table>
+      </Container>
+
+      {isModalOpen && (
+        <Modal show={isModalOpen} onHide={handleModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>수상 내역</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <img src={Awards} alt="" style={{ width: "100%" }} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleModalClose}>
+              닫기
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+    </>
   );
 }
 

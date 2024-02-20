@@ -78,6 +78,7 @@ function ProjectSideMenu() {
   return (
     <SideStyle className="list-group list-group-flush">
       {renderUpperMenu("/project/about/", "프로젝트 소개", <></>)}
+      {renderUpperMenu("/project/new/", "새로운 방법", <></>)}
       {renderUpperMenu(
         "/project/001/",
         "프로젝트 메뉴1",

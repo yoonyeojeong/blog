@@ -6,6 +6,8 @@ import Project001Summary from "./pages/001/Project001Summary";
 import Project001View from "./pages/001/Project001View";
 import Project001Code from "./pages/001/Project001Code";
 import "./css/ProjectBody.css";
+import TempPage from "../profile/pages/Temp";
+import NewMethod from "./pages/new/NewMethod";
 
 interface ProjectBodyProps {
   props: string;
@@ -16,7 +18,6 @@ function ProjectBody({ props }: ProjectBodyProps) {
 
   useEffect(() => {
     const normalizedProps = props.toLowerCase();
-
     switch (normalizedProps) {
       case "001summary":
         setComponent(<Project001Summary />);
@@ -26,6 +27,9 @@ function ProjectBody({ props }: ProjectBodyProps) {
         break;
       case "001code":
         setComponent(<Project001Code />);
+        break;
+      case "newmethod":
+        setComponent(<NewMethod />);
         break;
       default:
         setComponent(<ProjectMain />);
