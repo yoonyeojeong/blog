@@ -10,7 +10,7 @@ export interface CharacterInfo {
   character_exp_rate: string;
   character_guild_name: string;
   character_image: string;
-  character_hexa_core_equipment: HexaCoreEquipment;
+  character_hexa_core_equipment: HexaCoreEquipment[];
   unionRanking: UnionRankingInfo;
   final_stat: FinalStat[];
 }
@@ -27,12 +27,14 @@ export const initialValue: CharacterInfo = {
   character_exp_rate: "",
   character_guild_name: "",
   character_image: "",
-  character_hexa_core_equipment: {
-    hexa_core_name: "",
-    hexa_core_level: 0,
-    hexa_core_type: "",
-    linked_skill: [],
-  },
+  character_hexa_core_equipment: [
+    {
+      hexa_core_name: "",
+      hexa_core_level: 0,
+      hexa_core_type: "",
+      linked_skill: [],
+    },
+  ],
   unionRanking: {
     date: "",
     ranking: 0,

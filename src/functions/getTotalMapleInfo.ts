@@ -60,7 +60,7 @@ async function getCharacterBasic(ocid: string): Promise<CharacterBasicInfo> {
 
 async function getCharacterHexamatrix(
   ocid: string
-): Promise<HexaCoreEquipment> {
+): Promise<HexaCoreEquipment[]> {
   try {
     const response = await fetch(
       `https://open.api.nexon.com/maplestory/v1/character/hexamatrix?ocid=${ocid}&date=${yesterday}`,
@@ -70,8 +70,9 @@ async function getCharacterHexamatrix(
         },
       }
     );
-
-    return await response.json();
+    const result: { character_hexa_core_equipment: HexaCoreEquipment[] } =
+      await response.json();
+    return result.character_hexa_core_equipment;
   } catch (error) {
     console.error(error);
     throw error;
@@ -122,6 +123,7 @@ async function getStatInfo(ocid: string): Promise<FinalStat[]> {
 async function getTotalMapleInfo(
   characterName: string
 ): Promise<CharacterInfo> {
+  console.log("getTotalMapleInfo 요청보냄");
   const ocid = await getOcid(characterName);
   const basicInfo = await getCharacterBasic(ocid);
   const hexamatrix = await getCharacterHexamatrix(ocid);
