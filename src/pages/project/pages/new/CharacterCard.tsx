@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  CharacterInfo,
-  MyComponentProps,
-} from "../../../../functions/DTO/CharacterInfo";
+import { MyComponentProps } from "../../../../functions/DTO/CharacterInfo";
 import {
   Card,
   CardImg,
@@ -34,9 +31,16 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
   const handleCloseHexa = () => dispatch(setShowHexaModal(false));
   const handleShowHexa = () => dispatch(setShowHexaModal(true));
 
-  const addComma = (exp: number) => {
-    let returnString = exp?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return returnString;
+  const NoMargin = () => {
+    return { padding: "0", margin: "0" };
+  };
+
+  const existGuild = (guild: string) => {
+    if (guild === null || guild === "" || guild === undefined) {
+      return <></>;
+    } else {
+      return <span style={NoMargin()}>길드 : {guild}</span>;
+    }
   };
 
   const instruction = (type: string) => {
@@ -107,11 +111,15 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                   style={{ width: "100%" }}
                 />
               </div>
-              <CardTitle>
-                {info.character_name} <small>({info.world_name})</small>
-              </CardTitle>
-              <CardSubtitle>{info.character_class}</CardSubtitle>
-              <CardText>길드 : {info.character_guild_name}</CardText>
+              <CardTitle>{info.character_name}</CardTitle>
+              <CardSubtitle>{info.world_name}</CardSubtitle>
+              <CardText>
+                <span style={NoMargin()}>{info.character_class}</span>
+                <br />
+                <span style={NoMargin()}>Lv. {info.character_level}</span>
+                <br />
+                {existGuild(info.character_guild_name)}
+              </CardText>
               <div style={{ display: "flex", gap: "10px" }}>
                 <Button variant="success" onClick={handleShowStat}>
                   스탯

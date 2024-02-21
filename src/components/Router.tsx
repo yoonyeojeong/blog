@@ -61,7 +61,7 @@ export default function Router() {
         <Route path="/blog" element={<HomeBody />} />
         <Route path="/home/" element={<HomeBody />} />
         {RouteComponentArray}
-        <Route path="/project/about/" element={<ProjectBody props="" />} />
+        <Route path="/project/about/" element={<ProjectBody props="about" />} />
         <Route
           path="/project/new/"
           element={<ProjectBody props="newMethod" />}

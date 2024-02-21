@@ -97,7 +97,7 @@ function StatModal({ info }: MyComponentProps) {
         <Modal.Title>{info.character_name}의 스탯</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Table bordered={false}>
+        <Table bordered={false} hover={true}>
           <thead>
             <tr>
               <th>Stat</th>
@@ -108,7 +108,6 @@ function StatModal({ info }: MyComponentProps) {
             {determineMainCharacter(info.character_name, characterName)}
             <tr>
               <td>
-                {" "}
                 <strong>전투력 </strong>
               </td>
               <td>

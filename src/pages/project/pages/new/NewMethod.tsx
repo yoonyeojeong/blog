@@ -46,8 +46,8 @@ function NewMethod() {
             type="text"
             className="form-control"
             placeholder="닉네임을 입력하세요"
-            id="username"
-            name="username"
+            id="maplename"
+            name="maplename"
             aria-label="Username"
             onChange={(event) => setCharacterName(event.target.value)}
             style={{ maxWidth: "200px" }}

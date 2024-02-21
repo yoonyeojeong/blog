@@ -31,7 +31,7 @@ function Header() {
       <Button
         variant={determineVariant("project")}
         className="HeaderMenu"
-        onClick={() => navigate("/project/about/")}
+        onClick={() => navigate("/project/new/")}
       >
         Project
       </Button>
