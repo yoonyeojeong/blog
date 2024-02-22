@@ -5,6 +5,7 @@ import {
   HexaCoreEquipment,
   UnionRankingInfo,
   FinalStat,
+  ItemEquipmentInfo,
 } from "./DTO/CharacterInfo";
 const API_KEY = process.env.REACT_APP_NEXON_API_KEY;
 let day: Date = new Date();
@@ -120,6 +121,23 @@ async function getStatInfo(ocid: string): Promise<FinalStat[]> {
   }
 }
 
+async function getItemEquipmentInfo(ocid: string): Promise<ItemEquipmentInfo> {
+  try {
+    const response = await fetch(
+      `https://open.api.nexon.com/maplestory/v1/character/item-equipment?ocid=${ocid}&date=${yesterday}`,
+      {
+        headers: {
+          "x-nxopen-api-key": API_KEY,
+        },
+      }
+    );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getTotalMapleInfo(
   characterName: string
 ): Promise<CharacterInfo> {
@@ -129,6 +147,7 @@ async function getTotalMapleInfo(
   const hexamatrix = await getCharacterHexamatrix(ocid);
   const unionRanking = await getUnionRanking(ocid, basicInfo.world_name);
   const finalStat = await getStatInfo(ocid);
+  const itemEquipment = await getItemEquipmentInfo(ocid);
 
   return {
     ...initialValue,
@@ -146,6 +165,7 @@ async function getTotalMapleInfo(
     character_hexa_core_equipment: hexamatrix,
     unionRanking: unionRanking,
     final_stat: finalStat,
+    item_equipment: itemEquipment,
   };
 }
 

@@ -15,21 +15,28 @@ import NoResult from "../../files/noresult.png";
 import GoGo from "../../files/gogo.gif";
 import OverFlow from "../../files/overflow.gif";
 import StatModal from "./modal/StatModal";
-import { setShowStatModal, setShowHexaModal } from "../../../../store/actions";
+import {
+  setShowStatModal,
+  setShowHexaModal,
+  setShowEquipmentModal,
+} from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/reducers";
 import HexaModal from "./modal/HexaModal";
+import EquipmentModal from "./modal/EquipmentModal";
 
 const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
   const showStatModal = useSelector((state: RootState) => state.showStatModal);
   const showHexaModal = useSelector((state: RootState) => state.showHexaModal);
+  const showEquipmentModal = useSelector(
+    (state: RootState) => state.showEquipmentModal
+  );
   const dispatch = useDispatch();
 
-  const handleCloseStat = () => dispatch(setShowStatModal(false));
   const handleShowStat = () => dispatch(setShowStatModal(true));
 
-  const handleCloseHexa = () => dispatch(setShowHexaModal(false));
   const handleShowHexa = () => dispatch(setShowHexaModal(true));
+  const handleShowEquipment = () => dispatch(setShowEquipmentModal(true));
 
   const NoMargin = () => {
     return { padding: "0", margin: "0" };
@@ -120,7 +127,9 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                 <br />
                 {existGuild(info.character_guild_name)}
               </CardText>
-              <div style={{ display: "flex", gap: "10px" }}>
+              <div
+                style={{ display: "flex", gap: "10px", marginBottom: "10px" }}
+              >
                 <Button variant="success" onClick={handleShowStat}>
                   스탯
                 </Button>
@@ -128,10 +137,18 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                   헥사
                 </Button>
               </div>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <Button variant="success" onClick={handleShowEquipment}>
+                  장비
+                </Button>
+                <Button variant="success">임시</Button>
+              </div>
               {/*스탯 영역*/}
               <StatModal info={info} />
               {/*헥사 영역*/}
               <HexaModal info={info} />
+              {/*장비 영역*/}
+              <EquipmentModal info={info} />
             </CardBody>
           </Card>
         </div>

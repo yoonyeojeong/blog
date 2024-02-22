@@ -8,14 +8,14 @@ import { HexaCoreEquipment } from "../../../../../functions/DTO/CharacterInfo";
 import ErdaFragment from "./ErdaFragment.json";
 import Erda from "./Erda.json";
 import { AddComma } from "./AddComma";
-
+// JSON 파일로 불러온 조각 개수 정보를 위한 인터페이스
 interface FragmentDataType {
   [key: string]: {
     total: number;
     spended: { [level: string]: number };
   };
 }
-
+// JSON 파일로 불러온 솔 에르다 개수 정보를 위한 인터페이스
 interface ErdaDataType {
   [key: string]: {
     total: number;
@@ -24,24 +24,46 @@ interface ErdaDataType {
 }
 
 function HexaModal({ info }: MyComponentProps) {
+  // Modal을 열고 닫기 위한 상태 값 정의
+  // Redux를 통해 가져옴
   const showHexaModal = useSelector((state: RootState) => state.showHexaModal);
+  // 조각과 솔에르다 데이터 관리를 위한 상태 선언
+  // 위에서 정의해준 인터페이스 타입으로 선언해줌
   const [fragmentData, setFragmentData] = useState<FragmentDataType>({});
   const [erdaData, setErdaData] = useState<ErdaDataType>({});
+  // 데이터 Load여부를 판단하기 위한 상태 선언
+  // 데이터가 로드되기 전에 Rendering되는 경우
+  // 값이 제대로 출력되지 않을 수 있어 데이터 로드 로직을 넣어줌
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+  // 헥사코어 정보를 따로 관리하기 위한 변수 선언
   const hexaCoreEquipmentList: HexaCoreEquipment[] =
     info.character_hexa_core_equipment;
-
+  // 조각과 솔에르다 총 사용량을 계산하기 위한 상태 선언
+  // 공용코어를 제외한 경우의 상태도 별도로 선언
   const [sumOfErda, setSumOfErda] = useState<number>(0);
   const [sumOfFragment, setSumOfFragment] = useState<number>(0);
   const [sumOfErdaExceptCommonCore, setSumOfErdaExceptCommonCore] =
     useState<number>(0);
   const [sumOfFragmentExceptCommonCore, setSumOfFragmentExceptCommonCore] =
     useState<number>(0);
+  // 사용한 조각과 솔에르다를 확인하기 위한 상태 선언
+  // 마찬가지로 공용코어를 제외한 경우도 별도로 선언
   const [erda, setErda] = useState<number>(0);
   const [erdaExceptCommon, setErdaExceptCommon] = useState<number>(0);
   const [fragment, setFragment] = useState<number>(0);
   const [fragmentExceptCommon, setFragmentExceptCommon] = useState<number>(0);
+  // 코어의 개수를 정의
+  // 나중에 추가될 경우를 대비하여 상수로 정의해줌
+  const numberOfCores = {
+    skill: 1,
+    mastery: 2,
+    reinforced: 4,
+    common: 1,
+  };
 
+  // JSON 데이터 로드를 위한 useEffect
+  // 데이터 셋팅이 끝나고 나면 dataLoaded를 true로 설정하여
+  // 데이터 셋팅이 완료되었음을 확인함
   useEffect(() => {
     setFragmentData(ErdaFragment);
     setErdaData(Erda);
@@ -51,26 +73,26 @@ function HexaModal({ info }: MyComponentProps) {
   useEffect(() => {
     if (dataLoaded) {
       setErda(
-        Erda["스킬 코어"].total +
-          2 * Erda["마스터리 코어"].total +
-          4 * Erda["강화 코어"].total +
-          Erda["공용 코어"].total
+        numberOfCores.skill * Erda["스킬 코어"].total +
+          numberOfCores.mastery * Erda["마스터리 코어"].total +
+          numberOfCores.reinforced * Erda["강화 코어"].total +
+          numberOfCores.common * Erda["공용 코어"].total
       );
       setErdaExceptCommon(
-        Erda["스킬 코어"].total +
-          2 * Erda["마스터리 코어"].total +
-          4 * Erda["강화 코어"].total
+        numberOfCores.skill * Erda["스킬 코어"].total +
+          numberOfCores.mastery * Erda["마스터리 코어"].total +
+          numberOfCores.reinforced * Erda["강화 코어"].total
       );
       setFragment(
-        ErdaFragment["스킬 코어"].total +
-          2 * ErdaFragment["마스터리 코어"].total +
-          4 * ErdaFragment["강화 코어"].total +
-          ErdaFragment["공용 코어"].total
+        numberOfCores.skill * ErdaFragment["스킬 코어"].total +
+          numberOfCores.mastery * ErdaFragment["마스터리 코어"].total +
+          numberOfCores.reinforced * ErdaFragment["강화 코어"].total +
+          numberOfCores.common * ErdaFragment["공용 코어"].total
       );
       setFragmentExceptCommon(
-        ErdaFragment["스킬 코어"].total +
-          2 * ErdaFragment["마스터리 코어"].total +
-          4 * ErdaFragment["강화 코어"].total
+        numberOfCores.skill * ErdaFragment["스킬 코어"].total +
+          numberOfCores.mastery * ErdaFragment["마스터리 코어"].total +
+          numberOfCores.reinforced * ErdaFragment["강화 코어"].total
       );
       setSumOfErda(SumOfTotalErda(hexaCoreEquipmentList, false));
       setSumOfErdaExceptCommonCore(SumOfTotalErda(hexaCoreEquipmentList, true));
