@@ -62,7 +62,12 @@ function EquipmentModal({ info }: MyComponentProps) {
 
   const itemStyle = (itemName: string, itemPreset: ItemEquipment[]) => {
     const index = findIndex(itemName, itemPreset);
-    const gradeColor = getGradeColor(itemPreset[index].potential_option_grade);
+    let gradeColor = "";
+    if (index >= 0 && index < itemPreset.length) {
+      gradeColor = getGradeColor(itemPreset[index].potential_option_grade);
+    } else {
+      gradeColor = getGradeColor("");
+    }
 
     return {
       height: "90px",
@@ -93,11 +98,15 @@ function EquipmentModal({ info }: MyComponentProps) {
   };
 
   const itemImage = (itemName: string, itemPreset: ItemEquipment[]) => {
-    let index = findIndex(itemName, itemPreset);
-    let icon = itemPreset[index].item_icon;
-    return <img src={icon} alt={itemName} />;
-  };
+    const index = findIndex(itemName, itemPreset);
 
+    if (index >= 0 && index < itemPreset.length) {
+      let icon = itemPreset[index].item_icon;
+      return <img src={icon} alt={itemName} />;
+    }
+
+    return <></>;
+  };
   const tabInfo = [
     {
       index: 0,
@@ -222,7 +231,7 @@ function EquipmentModal({ info }: MyComponentProps) {
   return (
     <Modal show={showEquipmentModal} onHide={handleCloseEquipment}>
       <Modal.Header closeButton>
-        <Modal.Title>{info.character_name}의 헥사강화</Modal.Title>
+        <Modal.Title>{info.character_name}의 장비</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Nav style={{ justifyContent: "space-between", marginBottom: "10px" }}>
