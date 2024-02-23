@@ -14,6 +14,8 @@ export interface CharacterInfo {
   character_exp_rate: string;
   character_guild_name: string;
   character_image: string;
+  popularity: number;
+  dojang_best_floor: number;
   character_hexa_core_equipment: HexaCoreEquipment[];
   unionRanking: UnionRankingInfo;
   final_stat: FinalStat[];
@@ -32,6 +34,8 @@ export const initialValue: CharacterInfo = {
   character_exp_rate: "",
   character_guild_name: "",
   character_image: "",
+  popularity: 0,
+  dojang_best_floor: 0,
   character_hexa_core_equipment: [
     {
       hexa_core_name: "",

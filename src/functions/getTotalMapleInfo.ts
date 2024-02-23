@@ -121,6 +121,42 @@ async function getStatInfo(ocid: string): Promise<FinalStat[]> {
   }
 }
 
+async function getPopularity(ocid: string): Promise<number> {
+  try {
+    const response = await fetch(
+      `https://open.api.nexon.com/maplestory/v1/character/popularity?ocid=${ocid}&date=${yesterday}`,
+      {
+        headers: {
+          "x-nxopen-api-key": API_KEY,
+        },
+      }
+    );
+    const result = await response.json();
+    return result.popularity;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function getDojang(ocid: string): Promise<number> {
+  try {
+    const response = await fetch(
+      `https://open.api.nexon.com/maplestory/v1/character/dojang?ocid=${ocid}&date=${yesterday}`,
+      {
+        headers: {
+          "x-nxopen-api-key": API_KEY,
+        },
+      }
+    );
+    const result = await response.json();
+    return result.dojang_best_floor;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getItemEquipmentInfo(ocid: string): Promise<ItemEquipmentInfo> {
   try {
     const response = await fetch(
@@ -148,6 +184,8 @@ async function getTotalMapleInfo(
   const unionRanking = await getUnionRanking(ocid, basicInfo.world_name);
   const finalStat = await getStatInfo(ocid);
   const itemEquipment = await getItemEquipmentInfo(ocid);
+  const popularity = await getPopularity(ocid);
+  const dojang_best_floor = await getDojang(ocid);
 
   return {
     ...initialValue,
@@ -162,6 +200,8 @@ async function getTotalMapleInfo(
     character_exp_rate: basicInfo.character_exp_rate,
     character_guild_name: basicInfo.character_guild_name,
     character_image: basicInfo.character_image,
+    popularity: popularity,
+    dojang_best_floor: dojang_best_floor,
     character_hexa_core_equipment: hexamatrix,
     unionRanking: unionRanking,
     final_stat: finalStat,

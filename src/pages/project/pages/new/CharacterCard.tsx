@@ -190,7 +190,7 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
       return (
         <>
           <Table responsive bordered={false} style={{ width: "600px" }}>
-            <tbody>
+            <tbody className="CharacterCard">
               <tr style={{ height: "40px" }}>
                 <td
                   colSpan={2}
@@ -293,7 +293,7 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                     paddingLeft: "0",
                   }}
                 >
-                  <RightTag>무릉층수</RightTag>
+                  <RightTag>{info.dojang_best_floor}</RightTag>
                 </td>
                 <td
                   style={{
@@ -339,7 +339,7 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                     paddingLeft: "0",
                   }}
                 >
-                  <RightTag>인기도</RightTag>
+                  <RightTag>{AddComma(info.popularity)}</RightTag>
                 </td>
                 <td
                   style={{
