@@ -10,6 +10,9 @@ import {
   Button,
   Modal,
   Table,
+  Container,
+  Row,
+  Col,
 } from "react-bootstrap";
 import NoResult from "../../files/noresult.png";
 import GoGo from "../../files/gogo.gif";
@@ -24,6 +27,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/reducers";
 import HexaModal from "./modal/HexaModal";
 import EquipmentModal from "./modal/EquipmentModal";
+import styled from "@emotion/styled";
+import { AddComma } from "./modal/AddComma";
+import "./CharacterCard.css";
 
 const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
   const showStatModal = useSelector((state: RootState) => state.showStatModal);
@@ -104,54 +110,307 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
 
     return result;
   };
+  const NickNameTag = styled.div`
+    width: 100px;
+    height: 20px;
+    background-color: rgb(60, 194, 216);
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+    color: white;
+    display: inline-block;
+  `;
+
+  const ClassTag = styled.div`
+    width: 100px;
+    height: 20px;
+    background-color: rgb(152, 162, 172);
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+    color: white;
+    display: inline-block;
+  `;
+
+  const LevelTag = styled.div`
+    width: 100px;
+    height: 25px;
+    background-color: rgb(152, 162, 172);
+    font-size: 14px;
+    text-align: center;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: white;
+    display: inline-block;
+  `;
+
+  const LeftTag = styled.div`
+    width: 80px;
+    height: 25px;
+    background-color: rgb(202, 206, 208);
+    font-size: 14px;
+    text-align: left;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    padding-left: 8px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    color: white;
+    display: inline-block;
+  `;
+
+  const RightTag = styled.div`
+    width: 80px;
+    height: 25px;
+    background-color: rgb(202, 206, 208);
+    font-size: 14px;
+    text-align: right;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    padding-right: 8px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: rgb(102, 102, 102);
+    display: inline-block;
+  `;
 
   const renderCharacterInfo = () => {
     if (info.character_level > 0) {
       return (
-        <div className="col-5 text-center">
-          <Card style={{ width: "250px", height: "500px" }}>
-            <CardBody className="d-flex flex-column align-items-center">
-              <div className="d-flex justify-content-center">
-                <CardImg
-                  src={info.character_image}
-                  alt="Card Image"
-                  style={{ width: "100%" }}
-                />
-              </div>
-              <CardTitle>{info.character_name}</CardTitle>
-              <CardSubtitle>{info.world_name}</CardSubtitle>
-              <CardText>
-                <span style={NoMargin()}>{info.character_class}</span>
-                <br />
-                <span style={NoMargin()}>Lv. {info.character_level}</span>
-                <br />
-                {existGuild(info.character_guild_name)}
-              </CardText>
-              <div
-                style={{ display: "flex", gap: "10px", marginBottom: "10px" }}
-              >
-                <Button variant="success" onClick={handleShowStat}>
-                  스탯
-                </Button>
-                <Button variant="success" onClick={handleShowHexa}>
-                  헥사
-                </Button>
-              </div>
-              <div style={{ display: "flex", gap: "10px" }}>
-                <Button variant="success" onClick={handleShowEquipment}>
-                  장비
-                </Button>
-                <Button variant="success">임시</Button>
-              </div>
-              {/*스탯 영역*/}
-              <StatModal info={info} />
-              {/*헥사 영역*/}
-              <HexaModal info={info} />
-              {/*장비 영역*/}
-              <EquipmentModal info={info} />
-            </CardBody>
-          </Card>
-        </div>
+        <>
+          <Table responsive bordered={false} style={{ width: "600px" }}>
+            <tbody>
+              <tr style={{ height: "40px" }}>
+                <td
+                  colSpan={2}
+                  style={{
+                    margin: "5px",
+                    textAlign: "center",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <ClassTag>{info.character_class}</ClassTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    padding: "0",
+                    textAlign: "center",
+                    backgroundColor: "rgb(235,235,235)",
+                  }}
+                >
+                  <LevelTag>Lv. {info.character_level}</LevelTag>
+                </td>
+                <td style={{ margin: "5px" }}></td>
+                <td style={{ margin: "5px" }}></td>
+              </tr>
+              <tr style={{ height: "90px" }}>
+                <td style={{ margin: "5px" }}></td>
+                <td style={{ margin: "5px" }}></td>
+                <td
+                  rowSpan={3}
+                  style={{
+                    margin: "5px",
+                    textAlign: "center",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "rgb(235,235,235)",
+                    padding: "0",
+                    verticalAlign: "bottom",
+                  }}
+                >
+                  <CardImg
+                    src={info.character_image}
+                    alt="Card Image"
+                    style={{ display: "inline-block", width: "150px" }}
+                  />
+                </td>
+                <td style={{ margin: "5px" }}></td>
+                <td style={{ margin: "5px" }}></td>
+              </tr>
+              <tr style={{ height: "40px" }}>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "left",
+                    verticalAlign: "middle",
+                    paddingRight: "0",
+                  }}
+                >
+                  <LeftTag>유니온</LeftTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "right",
+                    verticalAlign: "middle",
+                    paddingLeft: "0",
+                  }}
+                >
+                  <RightTag>
+                    {AddComma(info.unionRanking.ranking[0].union_level)}
+                  </RightTag>
+                </td>
+                <td
+                  colSpan={2}
+                  style={{
+                    margin: "5px",
+                  }}
+                ></td>
+              </tr>
+              <tr style={{ height: "40px" }}>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "left",
+                    verticalAlign: "middle",
+                    paddingRight: "0",
+                  }}
+                >
+                  <LeftTag>무릉도장</LeftTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "right",
+                    verticalAlign: "middle",
+                    paddingLeft: "0",
+                  }}
+                >
+                  <RightTag>무릉층수</RightTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "left",
+                    verticalAlign: "middle",
+                    paddingRight: "0",
+                  }}
+                >
+                  <LeftTag>길드</LeftTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "right",
+                    verticalAlign: "middle",
+                    paddingLeft: "0",
+                  }}
+                >
+                  <RightTag>{info.character_guild_name}</RightTag>
+                </td>
+              </tr>
+              <tr style={{ height: "40px" }}>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "left",
+                    verticalAlign: "middle",
+                    paddingRight: "0",
+                  }}
+                >
+                  <LeftTag>인기도</LeftTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "right",
+                    verticalAlign: "middle",
+                    paddingLeft: "0",
+                  }}
+                >
+                  <RightTag>인기도</RightTag>
+                </td>
+                <td
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    border: "none",
+                    backgroundColor: "rgb(235,235,235)",
+                    verticalAlign: "middle",
+                  }}
+                >
+                  <NickNameTag>{info.character_name}</NickNameTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "left",
+                    verticalAlign: "middle",
+                    paddingRight: "0",
+                  }}
+                >
+                  <LeftTag>월드</LeftTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "right",
+                    verticalAlign: "middle",
+                    paddingLeft: "0",
+                  }}
+                >
+                  <RightTag>{info.world_name}</RightTag>
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={5}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      border: "none",
+                      gap: "10px",
+                    }}
+                  >
+                    <Button variant="success" onClick={handleShowStat}>
+                      스탯
+                    </Button>
+                    <Button variant="success" onClick={handleShowHexa}>
+                      헥사
+                    </Button>
+                    <Button variant="success" onClick={handleShowEquipment}>
+                      장비
+                    </Button>
+                    <Button variant="success">임시</Button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+
+          {/*스탯 영역*/}
+          <StatModal info={info} />
+          {/*헥사 영역*/}
+          <HexaModal info={info} />
+          {/*장비 영역*/}
+          <EquipmentModal info={info} />
+        </>
       );
     } else if (info.character_level === 0) {
       return instruction("first");

@@ -41,14 +41,18 @@ export const initialValue: CharacterInfo = {
     },
   ],
   unionRanking: {
-    date: "",
-    ranking: 0,
-    character_name: "",
-    world_name: "",
-    class_name: "",
-    sub_class_name: "",
-    union_level: 0,
-    union_power: 0,
+    ranking: [
+      {
+        date: "",
+        ranking: 0,
+        character_name: "",
+        world_name: "",
+        class_name: "",
+        sub_class_name: "",
+        union_level: 0,
+        union_power: 0,
+      },
+    ],
   },
   final_stat: [],
   item_equipment: {
@@ -97,14 +101,16 @@ export interface HexaCoreEquipment {
 }
 
 export interface UnionRankingInfo {
-  date: string;
-  ranking: number;
-  character_name: string;
-  world_name: string;
-  class_name: string;
-  sub_class_name: string;
-  union_level: number;
-  union_power: number;
+  ranking: {
+    date: string;
+    ranking: number;
+    character_name: string;
+    world_name: string;
+    class_name: string;
+    sub_class_name: string;
+    union_level: number;
+    union_power: number;
+  }[];
 }
 
 export interface ItemEquipmentInfo {
