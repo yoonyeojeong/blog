@@ -125,15 +125,15 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
   `;
 
   const ClassTag = styled.div`
-    width: 100px;
-    height: 20px;
+    width: 160px;
+    height: 24px;
     background-color: rgb(152, 162, 172);
     font-size: 14px;
     text-align: center;
     vertical-align: middle;
     margin: 0;
     padding: 0;
-    border-radius: 10px;
+    border-radius: 12px;
     color: white;
     display: inline-block;
   `;
@@ -155,32 +155,32 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
 
   const LeftTag = styled.div`
     width: 80px;
-    height: 25px;
+    height: 24px;
     background-color: rgb(202, 206, 208);
     font-size: 14px;
     text-align: left;
     vertical-align: middle;
     margin: 0;
     padding: 0;
-    padding-left: 8px;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
+    padding-left: 10px;
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
     color: white;
     display: inline-block;
   `;
 
   const RightTag = styled.div`
     width: 80px;
-    height: 25px;
+    height: 24px;
     background-color: rgb(202, 206, 208);
     font-size: 14px;
     text-align: right;
     vertical-align: middle;
     margin: 0;
     padding: 0;
-    padding-right: 8px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    padding-right: 10px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
     color: rgb(102, 102, 102);
     display: inline-block;
   `;
@@ -211,7 +211,9 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                     backgroundColor: "rgb(235,235,235)",
                   }}
                 >
-                  <LevelTag>Lv. {info.character_level}</LevelTag>
+                  <LevelTag>
+                    Lv. <strong>{info.character_level}</strong>
+                  </LevelTag>
                 </td>
                 <td style={{ margin: "5px" }}></td>
                 <td style={{ margin: "5px" }}></td>
