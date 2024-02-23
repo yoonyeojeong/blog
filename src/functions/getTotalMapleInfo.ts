@@ -36,6 +36,7 @@ async function getOcid(characterName: string): Promise<string> {
     const data = await response.json();
     return data.ocid;
   } catch (error) {
+    console.log("▶ 캐릭터 식별자 에러");
     console.error(error);
     throw error;
   }
@@ -54,6 +55,7 @@ async function getCharacterBasic(ocid: string): Promise<CharacterBasicInfo> {
 
     return await response.json();
   } catch (error) {
+    console.log("▶ 기본정보 에러");
     console.error(error);
     throw error;
   }
@@ -75,6 +77,7 @@ async function getCharacterHexamatrix(
       await response.json();
     return result.character_hexa_core_equipment;
   } catch (error) {
+    console.log("▶ 헥사정보 에러");
     console.error(error);
     throw error;
   }
@@ -98,6 +101,7 @@ async function getUnionRanking(
 
     return await response.json();
   } catch (error) {
+    console.log("▶ 유니온 정보 에러");
     console.error(error);
     throw error;
   }
@@ -116,6 +120,7 @@ async function getStatInfo(ocid: string): Promise<FinalStat[]> {
     const result: { final_stat: FinalStat[] } = await response.json();
     return result.final_stat;
   } catch (error) {
+    console.log("▶ 스탯정보 에러");
     console.error(error);
     throw error;
   }
@@ -134,6 +139,7 @@ async function getPopularity(ocid: string): Promise<number> {
     const result = await response.json();
     return result.popularity;
   } catch (error) {
+    console.log("▶ 인기도 에러");
     console.error(error);
     throw error;
   }
@@ -152,6 +158,7 @@ async function getDojang(ocid: string): Promise<number> {
     const result = await response.json();
     return result.dojang_best_floor;
   } catch (error) {
+    console.log("▶ 무릉 에러");
     console.error(error);
     throw error;
   }
@@ -169,6 +176,7 @@ async function getItemEquipmentInfo(ocid: string): Promise<ItemEquipmentInfo> {
     );
     return await response.json();
   } catch (error) {
+    console.log("▶ 장비정보 에러");
     console.error(error);
     throw error;
   }
@@ -177,7 +185,7 @@ async function getItemEquipmentInfo(ocid: string): Promise<ItemEquipmentInfo> {
 async function getTotalMapleInfo(
   characterName: string
 ): Promise<CharacterInfo> {
-  console.log("getTotalMapleInfo 요청보냄");
+  console.log("▶ getTotalMapleInfo 요청보냄");
   const ocid = await getOcid(characterName);
   const basicInfo = await getCharacterBasic(ocid);
   const hexamatrix = await getCharacterHexamatrix(ocid);
@@ -186,7 +194,7 @@ async function getTotalMapleInfo(
   const itemEquipment = await getItemEquipmentInfo(ocid);
   const popularity = await getPopularity(ocid);
   const dojang_best_floor = await getDojang(ocid);
-
+  console.log("▶ getTotalMapleInfo 요청 무사히 완료");
   return {
     ...initialValue,
     ocid,

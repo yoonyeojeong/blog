@@ -390,16 +390,18 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                       gap: "10px",
                     }}
                   >
-                    <Button variant="success" onClick={handleShowStat}>
+                    <Button variant="secondary" onClick={handleShowStat}>
                       스탯
                     </Button>
-                    <Button variant="success" onClick={handleShowHexa}>
-                      헥사
-                    </Button>
-                    <Button variant="success" onClick={handleShowEquipment}>
+
+                    <Button variant="secondary" onClick={handleShowEquipment}>
                       장비
                     </Button>
-                    <Button variant="success">임시</Button>
+
+                    <Button variant="secondary" onClick={handleShowHexa}>
+                      헥사
+                    </Button>
+                    <Button variant="secondary">임시</Button>
                   </div>
                 </td>
               </tr>
