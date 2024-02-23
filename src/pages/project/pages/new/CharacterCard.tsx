@@ -159,7 +159,7 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
     background-color: rgb(202, 206, 208);
     font-size: 14px;
     text-align: left;
-    vertical-align: top;
+    vertical-align: middle;
     margin: 0;
     padding: 0;
     padding-left: 8px;
@@ -175,7 +175,7 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
     background-color: rgb(202, 206, 208);
     font-size: 14px;
     text-align: right;
-    vertical-align: top;
+    vertical-align: middle;
     margin: 0;
     padding: 0;
     padding-right: 8px;
