@@ -151,9 +151,13 @@ function HexaModal({ info }: MyComponentProps) {
   };
 
   const SumOfTotalFragment = (
-    hexaCoreEquipmentList: HexaCoreEquipment[],
+    hexaCoreEquipmentList: HexaCoreEquipment[] | null | undefined,
     exceptCommon: boolean
   ) => {
+    if (!hexaCoreEquipmentList) {
+      return 0;
+    }
+
     let sum = 0;
     for (let i = 0; i < hexaCoreEquipmentList.length; i++) {
       sum += TotalSpendedFragment(
@@ -166,9 +170,13 @@ function HexaModal({ info }: MyComponentProps) {
   };
 
   const SumOfTotalErda = (
-    hexaCoreEquipmentList: HexaCoreEquipment[],
+    hexaCoreEquipmentList: HexaCoreEquipment[] | null | undefined,
     exceptCommon: boolean
   ) => {
+    if (!hexaCoreEquipmentList) {
+      return 0;
+    }
+
     let sum = 0;
     for (let i = 0; i < hexaCoreEquipmentList.length; i++) {
       sum += TotalSpendedErda(
@@ -179,7 +187,6 @@ function HexaModal({ info }: MyComponentProps) {
     }
     return sum;
   };
-
   const HexaInfo = () => {
     if (!dataLoaded) {
       return (
