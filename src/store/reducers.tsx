@@ -2,12 +2,16 @@ export interface RootState {
   showStatModal: boolean;
   showHexaModal: boolean;
   showEquipmentModal: boolean;
+  showHyperStatModal: boolean;
+  showAbilityModal: boolean;
 }
 
 const initialState: RootState = {
-  showStatModal: false,
+  showStatModal: true,
   showHexaModal: false,
   showEquipmentModal: false,
+  showHyperStatModal: false,
+  showAbilityModal: false,
 };
 
 const rootReducer = (state: RootState = initialState, action: any) => {
@@ -26,6 +30,16 @@ const rootReducer = (state: RootState = initialState, action: any) => {
       return {
         ...state,
         showEquipmentModal: action.payload,
+      };
+    case "SET_SHOW_HYPERSTAT_MODAL":
+      return {
+        ...state,
+        showHyperStatModal: action.payload,
+      };
+    case "SET_SHOW_ABILITY_MODAL":
+      return {
+        ...state,
+        showAbilityModal: action.payload,
       };
     default:
       return state;

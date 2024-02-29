@@ -41,7 +41,7 @@ function ProjectBody({ props }: ProjectBodyProps) {
     <>
       <Header />
       <div className="ProjectBodyLayout">
-        <ProjectSideMenu />
+        {/*<ProjectSideMenu />*/}
         {component}
       </div>
     </>

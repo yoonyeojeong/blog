@@ -12,3 +12,13 @@ export const setShowEquipmentModal = (show: boolean) => ({
   type: "SET_SHOW_EQUIPMENT_MODAL",
   payload: show,
 });
+
+export const setShowHyperStatModal = (show: boolean) => ({
+  type: "SET_SHOW_HYPERSTAT_MODAL",
+  payload: show,
+});
+
+export const setShowAbilityModal = (show: boolean) => ({
+  type: "SET_SHOW_ABILITY_MODAL",
+  payload: show,
+});

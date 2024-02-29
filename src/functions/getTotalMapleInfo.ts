@@ -6,6 +6,7 @@ import {
   UnionRankingInfo,
   FinalStat,
   ItemEquipmentInfo,
+  HyperStat,
 } from "./DTO/CharacterInfo";
 const API_KEY = process.env.REACT_APP_NEXON_API_KEY;
 let day: Date = new Date();
@@ -182,6 +183,24 @@ async function getItemEquipmentInfo(ocid: string): Promise<ItemEquipmentInfo> {
   }
 }
 
+async function getHyperStatInfo(ocid: string): Promise<HyperStat> {
+  try {
+    const response = await fetch(
+      `https://open.api.nexon.com/maplestory/v1/character/hyper-stat?ocid=${ocid}&date=${yesterday}`,
+      {
+        headers: {
+          "x-nxopen-api-key": API_KEY,
+        },
+      }
+    );
+    return await response.json();
+  } catch (error) {
+    console.log("▶ 하이퍼스탯 정보 에러");
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getTotalMapleInfo(
   characterName: string
 ): Promise<CharacterInfo> {
@@ -194,6 +213,7 @@ async function getTotalMapleInfo(
   const itemEquipment = await getItemEquipmentInfo(ocid);
   const popularity = await getPopularity(ocid);
   const dojang_best_floor = await getDojang(ocid);
+  const hyper_stat = await getHyperStatInfo(ocid);
   console.log("▶ getTotalMapleInfo 요청 무사히 완료");
   return {
     ...initialValue,
@@ -214,6 +234,7 @@ async function getTotalMapleInfo(
     unionRanking: unionRanking,
     final_stat: finalStat,
     item_equipment: itemEquipment,
+    hyper_stat: hyper_stat,
   };
 }
 

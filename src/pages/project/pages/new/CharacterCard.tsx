@@ -1,19 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MyComponentProps } from "../../../../functions/DTO/CharacterInfo";
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Button,
-  Modal,
-  Table,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { CardImg, Button, Table } from "react-bootstrap";
 import NoResult from "../../files/noresult.png";
 import GoGo from "../../files/gogo.gif";
 import OverFlow from "../../files/overflow.gif";
@@ -22,6 +9,8 @@ import {
   setShowStatModal,
   setShowHexaModal,
   setShowEquipmentModal,
+  setShowHyperStatModal,
+  setShowAbilityModal,
 } from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/reducers";
@@ -32,17 +21,25 @@ import { AddComma } from "./modal/AddComma";
 import "./CharacterCard.css";
 
 const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
-  const showStatModal = useSelector((state: RootState) => state.showStatModal);
-  const showHexaModal = useSelector((state: RootState) => state.showHexaModal);
-  const showEquipmentModal = useSelector(
-    (state: RootState) => state.showEquipmentModal
-  );
   const dispatch = useDispatch();
+  const [activeButton, setActiveButton] = useState("stat");
 
-  const handleShowStat = () => dispatch(setShowStatModal(true));
+  const handleShowModal = (buttonType: string) => {
+    setActiveButton(buttonType);
 
-  const handleShowHexa = () => dispatch(setShowHexaModal(true));
-  const handleShowEquipment = () => dispatch(setShowEquipmentModal(true));
+    dispatch(setShowStatModal(buttonType === "stat"));
+    dispatch(setShowHexaModal(buttonType === "hexa"));
+    dispatch(setShowEquipmentModal(buttonType === "equipment"));
+  };
+
+  useEffect(() => {
+    dispatch(setShowStatModal(true));
+    dispatch(setShowHexaModal(false));
+    dispatch(setShowEquipmentModal(false));
+    dispatch(setShowHyperStatModal(false));
+    dispatch(setShowAbilityModal(false));
+    setActiveButton("stat");
+  }, [info]);
 
   const NoMargin = () => {
     return { padding: "0", margin: "0" };
@@ -55,7 +52,43 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
       return <span style={NoMargin()}>길드 : {guild}</span>;
     }
   };
-
+  function determineMainCharacter(searched: string, union: string) {
+    if (searched === union) {
+      return (
+        <>
+          <td style={{ margin: "5px" }}></td>
+          <td style={{ margin: "5px" }}></td>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <td
+            style={{
+              margin: "5px",
+              width: "80px",
+              textAlign: "left",
+              verticalAlign: "middle",
+              paddingRight: "0",
+            }}
+          >
+            <LeftTag>본캐</LeftTag>
+          </td>
+          <td
+            style={{
+              margin: "5px",
+              width: "80px",
+              textAlign: "right",
+              verticalAlign: "middle",
+              paddingLeft: "0",
+            }}
+          >
+            <RightTag>{union}</RightTag>
+          </td>
+        </>
+      );
+    }
+  }
   const instruction = (type: string) => {
     let result;
     switch (type) {
@@ -154,7 +187,7 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
   `;
 
   const LeftTag = styled.div`
-    width: 80px;
+    width: 75px;
     height: 24px;
     background-color: rgb(202, 206, 208);
     font-size: 14px;
@@ -170,7 +203,7 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
   `;
 
   const RightTag = styled.div`
-    width: 80px;
+    width: 95px;
     height: 24px;
     background-color: rgb(202, 206, 208);
     font-size: 14px;
@@ -189,7 +222,11 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
     if (info.character_level > 0) {
       return (
         <>
-          <Table responsive bordered={false} style={{ width: "600px" }}>
+          <Table
+            responsive
+            bordered={false}
+            style={{ width: "600px", margin: "auto" }}
+          >
             <tbody className="CharacterCard">
               <tr style={{ height: "40px" }}>
                 <td
@@ -215,8 +252,12 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                     Lv. <strong>{info.character_level}</strong>
                   </LevelTag>
                 </td>
-                <td style={{ margin: "5px" }}></td>
-                <td style={{ margin: "5px" }}></td>
+                {info && info.unionRanking && info.unionRanking.ranking[0]
+                  ? determineMainCharacter(
+                      info.character_name,
+                      info.unionRanking.ranking[0].character_name
+                    )
+                  : ""}
               </tr>
               <tr style={{ height: "90px" }}>
                 <td style={{ margin: "5px" }}></td>
@@ -264,15 +305,33 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                   }}
                 >
                   <RightTag>
-                    {AddComma(info.unionRanking.ranking[0].union_level)}
+                    {info && info.unionRanking && info.unionRanking.ranking[0]
+                      ? AddComma(info.unionRanking.ranking[0].union_level)
+                      : ""}
                   </RightTag>
                 </td>
                 <td
-                  colSpan={2}
                   style={{
                     margin: "5px",
+                    width: "80px",
+                    textAlign: "left",
+                    verticalAlign: "middle",
+                    paddingRight: "0",
                   }}
-                ></td>
+                >
+                  <LeftTag>경험치</LeftTag>
+                </td>
+                <td
+                  style={{
+                    margin: "5px",
+                    width: "80px",
+                    textAlign: "right",
+                    verticalAlign: "middle",
+                    paddingLeft: "0",
+                  }}
+                >
+                  <RightTag>{info.character_exp_rate}%</RightTag>
+                </td>
               </tr>
               <tr style={{ height: "40px" }}>
                 <td
@@ -317,7 +376,11 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                     paddingLeft: "0",
                   }}
                 >
-                  <RightTag>{info.character_guild_name}</RightTag>
+                  <RightTag>
+                    {info.character_guild_name != null
+                      ? info.character_guild_name
+                      : "없음"}
+                  </RightTag>
                 </td>
               </tr>
               <tr style={{ height: "40px" }}>
@@ -390,15 +453,26 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
                       gap: "10px",
                     }}
                   >
-                    <Button variant="secondary" onClick={handleShowStat}>
+                    <Button
+                      variant={activeButton === "stat" ? "dark" : "secondary"}
+                      onClick={() => handleShowModal("stat")}
+                    >
                       스탯
                     </Button>
 
-                    <Button variant="secondary" onClick={handleShowEquipment}>
+                    <Button
+                      variant={
+                        activeButton === "equipment" ? "dark" : "secondary"
+                      }
+                      onClick={() => handleShowModal("equipment")}
+                    >
                       장비
                     </Button>
 
-                    <Button variant="secondary" onClick={handleShowHexa}>
+                    <Button
+                      variant={activeButton === "hexa" ? "dark" : "secondary"}
+                      onClick={() => handleShowModal("hexa")}
+                    >
                       헥사
                     </Button>
                     <Button variant="secondary">임시</Button>
@@ -425,10 +499,6 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
     }
   };
 
-  return (
-    <div className="ProjectMain" style={{ textAlign: "left" }}>
-      {renderCharacterInfo()}
-    </div>
-  );
+  return <div>{renderCharacterInfo()}</div>;
 };
 export default CharacterCard;

@@ -331,12 +331,9 @@ function HexaModal({ info }: MyComponentProps) {
     }
   };
 
-  return (
-    <Modal show={showHexaModal} onHide={handleCloseHexa}>
-      <Modal.Header closeButton>
-        <Modal.Title>{info.character_name}의 헥사강화</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+  return showHexaModal ? (
+    <div className="hexa-modal show" style={{ width: "600px", margin: "auto" }}>
+      <div className="hexa-modal-body">
         <Table bordered={false} hover={true}>
           <thead>
             <tr>
@@ -347,19 +344,14 @@ function HexaModal({ info }: MyComponentProps) {
               <th>Fragment</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody style={{ textAlign: "left" }}>
             {HexaInfo()}
             {LeftAmount()}
           </tbody>
         </Table>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseHexa}>
-          닫기
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+      </div>
+    </div>
+  ) : null;
 }
 
 export default HexaModal;

@@ -13,6 +13,7 @@ import {
   NavLink,
   Row,
   Table,
+  Tooltip,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../store/reducers";
@@ -28,6 +29,7 @@ function EquipmentModal({ info }: MyComponentProps) {
     setSelectedTab(0);
   };
   const [selectedTab, setSelectedTab] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   // 탭을 클릭할 때 호출되는 함수
   const handleTabClick = (tabNumber: number) => {
     setSelectedTab(tabNumber);
@@ -58,7 +60,7 @@ function EquipmentModal({ info }: MyComponentProps) {
     }
   };
   const getButtonVariant = (tabNumber: number) =>
-    selectedTab === tabNumber ? "primary" : "secondary";
+    selectedTab === tabNumber ? "dark" : "light";
 
   const itemStyle = (itemName: string, itemPreset: ItemEquipment[]) => {
     const index = findIndex(itemName, itemPreset);
@@ -86,6 +88,7 @@ function EquipmentModal({ info }: MyComponentProps) {
     margin: "2px",
     padding: "4px",
     borderRadius: "5px",
+    border: `2px solid rgba(255,255,255,0)`,
   };
 
   const findIndex = (itemName: string, itemPreset: ItemEquipment[]) => {
@@ -130,110 +133,80 @@ function EquipmentModal({ info }: MyComponentProps) {
     },
   ];
 
+  const Column = (itemName: string, itemPreset: ItemEquipment[]) => {
+    return (
+      <>
+        <Col
+          style={itemStyle(itemName, itemPreset)}
+          onMouseOver={() => {
+            setIsHovered(true);
+          }}
+          onMouseOut={() => {
+            setIsHovered(false);
+          }}
+        >
+          {itemImage(itemName, itemPreset)}
+        </Col>
+      </>
+    );
+  };
+
   const SelectedPreset = () => {
     const itemPreset = tabInfo[selectedTab].preset;
     return (
       <Container fluid style={{ textAlign: "center" }}>
         <Row className="grid-row">
-          <Col style={itemStyle("반지4", itemPreset)}>
-            {itemImage("반지4", itemPreset)}
-          </Col>
+          {Column("반지4", itemPreset)}
           <Col style={itemStyleBlank}> </Col>
-          <Col style={itemStyle("모자", itemPreset)}>
-            {itemImage("모자", itemPreset)}
-          </Col>
+          {Column("모자", itemPreset)}
           <Col style={itemStyleBlank}> </Col>
-          <Col style={itemStyle("엠블렘", itemPreset)}>
-            {itemImage("엠블렘", itemPreset)}
-          </Col>
+          {Column("엠블렘", itemPreset)}
         </Row>
         <Row className="grid-row">
-          <Col style={itemStyle("반지3", itemPreset)}>
-            {itemImage("반지3", itemPreset)}
-          </Col>
-          <Col style={itemStyle("펜던트2", itemPreset)}>
-            {itemImage("펜던트2", itemPreset)}
-          </Col>
-          <Col style={itemStyle("얼굴장식", itemPreset)}>
-            {itemImage("얼굴장식", itemPreset)}
-          </Col>
+          {Column("반지3", itemPreset)}
+          {Column("펜던트2", itemPreset)}
+          {Column("얼굴장식", itemPreset)}
           <Col style={itemStyleBlank}> </Col>
-          <Col style={itemStyle("뱃지", itemPreset)}>
-            {itemImage("뱃지", itemPreset)}
-          </Col>
+          {Column("뱃지", itemPreset)}
         </Row>
         <Row className="grid-row">
-          <Col style={itemStyle("반지2", itemPreset)}>
-            {itemImage("반지2", itemPreset)}
-          </Col>
-          <Col style={itemStyle("펜던트", itemPreset)}>
-            {itemImage("펜던트", itemPreset)}
-          </Col>
-          <Col style={itemStyle("눈장식", itemPreset)}>
-            {itemImage("눈장식", itemPreset)}
-          </Col>
-          <Col style={itemStyle("귀고리", itemPreset)}>
-            {itemImage("귀고리", itemPreset)}
-          </Col>
-          <Col style={itemStyle("훈장", itemPreset)}>
-            {itemImage("훈장", itemPreset)}
-          </Col>
+          {Column("반지2", itemPreset)}
+          {Column("펜던트", itemPreset)}
+          {Column("눈장식", itemPreset)}
+          {Column("귀고리", itemPreset)}
+          {Column("훈장", itemPreset)}
         </Row>
         <Row className="grid-row">
-          <Col style={itemStyle("반지1", itemPreset)}>
-            {itemImage("반지1", itemPreset)}
-          </Col>
-          <Col style={itemStyle("무기", itemPreset)}>
-            {itemImage("무기", itemPreset)}
-          </Col>
-          <Col style={itemStyle("상의", itemPreset)}>
-            {itemImage("상의", itemPreset)}
-          </Col>
-          <Col style={itemStyle("어깨장식", itemPreset)}>
-            {itemImage("어깨장식", itemPreset)}
-          </Col>
-          <Col style={itemStyle("보조무기", itemPreset)}>
-            {itemImage("보조무기", itemPreset)}
-          </Col>
+          {Column("반지1", itemPreset)}
+          {Column("무기", itemPreset)}
+          {Column("상의", itemPreset)}
+          {Column("어깨장식", itemPreset)}
+          {Column("보조무기", itemPreset)}
         </Row>
         <Row className="grid-row">
-          <Col style={itemStyle("포켓 아이템", itemPreset)}>
-            {itemImage("포켓 아이템", itemPreset)}
-          </Col>
-          <Col style={itemStyle("벨트", itemPreset)}>
-            {itemImage("벨트", itemPreset)}
-          </Col>
-          <Col style={itemStyle("하의", itemPreset)}>
-            {itemImage("하의", itemPreset)}
-          </Col>
-          <Col style={itemStyle("장갑", itemPreset)}>
-            {itemImage("장갑", itemPreset)}
-          </Col>
-          <Col style={itemStyle("망토", itemPreset)}>
-            {itemImage("망토", itemPreset)}
-          </Col>
+          {Column("포켓 아이템", itemPreset)}
+          {Column("벨트", itemPreset)}
+          {Column("하의", itemPreset)}
+          {Column("장갑", itemPreset)}
+          {Column("망토", itemPreset)}
         </Row>
         <Row className="grid-row">
           <Col style={itemStyleBlank}> </Col>
           <Col style={itemStyleBlank}> </Col>
-          <Col style={itemStyle("신발", itemPreset)}>
-            {itemImage("신발", itemPreset)}
-          </Col>
+          {Column("신발", itemPreset)}
           <Col style={itemStyleBlank}> </Col>
-          <Col style={itemStyle("기계 심장", itemPreset)}>
-            {itemImage("기계 심장", itemPreset)}
-          </Col>
+          {Column("기계 심장", itemPreset)}
         </Row>
       </Container>
     );
   };
 
-  return (
-    <Modal show={showEquipmentModal} onHide={handleCloseEquipment}>
-      <Modal.Header closeButton>
-        <Modal.Title>{info.character_name}의 장비</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+  return showEquipmentModal ? (
+    <div
+      className="equipment-modal show"
+      style={{ width: "500px", margin: "auto" }}
+    >
+      <div className="equipment-modal-body">
         <Nav style={{ justifyContent: "space-between", marginBottom: "10px" }}>
           {tabInfo.map((tab) => (
             <NavItem key={tab.index}>
@@ -247,14 +220,9 @@ function EquipmentModal({ info }: MyComponentProps) {
           ))}
         </Nav>
         <SelectedPreset />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseEquipment}>
-          닫기
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+      </div>
+    </div>
+  ) : null;
 }
 
 export default EquipmentModal;

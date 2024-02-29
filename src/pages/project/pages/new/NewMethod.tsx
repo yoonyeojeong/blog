@@ -36,9 +36,12 @@ function NewMethod() {
   }
 
   return (
-    <div className="ProjectMain" style={{ textAlign: "left" }}>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group mb-3" style={{ minWidth: "300px" }}>
+    <div className="ProjectMain">
+      <form onSubmit={handleSubmit} style={{ alignItems: "center" }}>
+        <div
+          className="input-group mb-3 d-flex justify-content-center"
+          style={{ minWidth: "300px" }}
+        >
           <span className="input-group-text" id="basic-addon1">
             닉네임
           </span>
