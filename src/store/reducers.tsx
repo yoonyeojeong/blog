@@ -4,6 +4,9 @@ export interface RootState {
   showEquipmentModal: boolean;
   showHyperStatModal: boolean;
   showAbilityModal: boolean;
+  showItemModal: boolean;
+  equipmentPreset: number;
+  abilityPreset: number;
 }
 
 const initialState: RootState = {
@@ -12,6 +15,9 @@ const initialState: RootState = {
   showEquipmentModal: false,
   showHyperStatModal: false,
   showAbilityModal: false,
+  showItemModal: false,
+  equipmentPreset: 255,
+  abilityPreset: 255,
 };
 
 const rootReducer = (state: RootState = initialState, action: any) => {
@@ -40,6 +46,21 @@ const rootReducer = (state: RootState = initialState, action: any) => {
       return {
         ...state,
         showAbilityModal: action.payload,
+      };
+    case "SET_SHOW_ITEM_MODAL":
+      return {
+        ...state,
+        showItemModal: action.payload,
+      };
+    case "SET_EQUIPMENT_PRESET":
+      return {
+        ...state,
+        equipmentPreset: action.payload,
+      };
+    case "SET_ABILITY_PRESET":
+      return {
+        ...state,
+        abilityPreset: action.payload,
       };
     default:
       return state;

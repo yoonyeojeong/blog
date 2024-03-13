@@ -11,6 +11,8 @@ import {
   setShowEquipmentModal,
   setShowHyperStatModal,
   setShowAbilityModal,
+  setShowItemModal,
+  setEquipmentPreset,
 } from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/reducers";
@@ -38,6 +40,7 @@ const CharacterCard: React.FC<MyComponentProps> = ({ info }) => {
     dispatch(setShowEquipmentModal(false));
     dispatch(setShowHyperStatModal(false));
     dispatch(setShowAbilityModal(false));
+    dispatch(setShowItemModal(false));
     setActiveButton("stat");
   }, [info]);
 

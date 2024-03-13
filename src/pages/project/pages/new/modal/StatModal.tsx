@@ -947,7 +947,7 @@ function StatModal({ info }: MyComponentProps) {
                 }}
               >
                 <Button variant="secondary" onClick={OpenAbilityModal}>
-                  어빌리티(미구현)
+                  어빌리티
                 </Button>
               </td>
             </tr>

@@ -1,38 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ItemEquipment,
+  ItemEquipmentProps,
   MyComponentProps,
 } from "../../../../../functions/DTO/CharacterInfo";
-import {
-  Button,
-  Col,
-  Container,
-  Modal,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  Table,
-  Tooltip,
-} from "react-bootstrap";
+import { Button, Col, Container, Nav, NavItem, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../store/reducers";
-import { setShowEquipmentModal } from "../../../../../store/actions";
+import {
+  setEquipmentPreset,
+  setShowItemModal,
+} from "../../../../../store/actions";
+import ItemCard from "./ItemCard";
 
 function EquipmentModal({ info }: MyComponentProps) {
   const showEquipmentModal = useSelector(
     (state: RootState) => state.showEquipmentModal
   );
+  const selectedTab = useSelector((state: RootState) => state.equipmentPreset);
   const dispatch = useDispatch();
-  const handleCloseEquipment = () => {
-    dispatch(setShowEquipmentModal(false));
-    setSelectedTab(0);
-  };
-  const [selectedTab, setSelectedTab] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [selectedItemName, setSelectedItemName] = useState<string>("모자");
+
+  useEffect(() => {
+    if (info && info.item_equipment.preset_no) {
+      dispatch(setEquipmentPreset(info.item_equipment.preset_no));
+    } else {
+      dispatch(setEquipmentPreset(255));
+    }
+  }, [info, showEquipmentModal, info.item_equipment.preset_no]);
   // 탭을 클릭할 때 호출되는 함수
   const handleTabClick = (tabNumber: number) => {
-    setSelectedTab(tabNumber);
+    dispatch(setEquipmentPreset(tabNumber));
     // 여기에 각 탭을 클릭했을 때의 동작을 추가할 수 있습니다.
     // 예를 들어, 아래에서 값을 변경하는 함수를 호출할 수 있습니다.
     // changeValuesBasedOnTab(tabNumber);
@@ -43,6 +41,10 @@ function EquipmentModal({ info }: MyComponentProps) {
     // 각 탭에 따라 값을 변경하는 로직을 작성합니다.
     // 예를 들어, setState를 사용하여 값을 변경하거나, API 호출을 통해 값을 가져올 수 있습니다.
     // 여기에 로직을 추가하세요.
+  };
+
+  const OpenItemModal = () => {
+    dispatch(setShowItemModal(true));
   };
 
   const getGradeColor = (grade: string) => {
@@ -72,20 +74,22 @@ function EquipmentModal({ info }: MyComponentProps) {
     }
 
     return {
-      height: "90px",
-      width: "90px",
-      margin: "2px",
+      height: "80px",
+      width: "80px",
+      margin: "6px",
       padding: "4px",
-      backgroundColor: "rgba(0,0,0,0.2)",
+      backgroundColor: "rgba(0,0,0,0.12)",
       borderRadius: "5px",
       border: `2px solid ${gradeColor}`,
+      verticalAlign: "middle",
+      display: "flex",
     };
   };
 
   const itemStyleBlank = {
-    height: "90px",
-    width: "90px",
-    margin: "2px",
+    height: "80px",
+    width: "80px",
+    margin: "6px",
     padding: "4px",
     borderRadius: "5px",
     border: `2px solid rgba(255,255,255,0)`,
@@ -105,17 +109,24 @@ function EquipmentModal({ info }: MyComponentProps) {
 
     if (index >= 0 && index < itemPreset.length) {
       let icon = itemPreset[index].item_icon;
-      return <img src={icon} alt={itemName} />;
+      return (
+        <img
+          src={icon}
+          alt={itemName}
+          style={{ margin: "auto", display: "block" }}
+        />
+      );
     }
 
     return <></>;
   };
+
+  const selectedItem = (itemName: string, itemPreset: ItemEquipment[]) => {
+    const index = findIndex(itemName, itemPreset);
+    let item = itemPreset[index];
+    return item;
+  };
   const tabInfo = [
-    {
-      index: 0,
-      label: "현재프리셋",
-      preset: info.item_equipment.item_equipment,
-    },
     {
       index: 1,
       label: "Preset 1",
@@ -138,11 +149,11 @@ function EquipmentModal({ info }: MyComponentProps) {
       <>
         <Col
           style={itemStyle(itemName, itemPreset)}
-          onMouseOver={() => {
-            setIsHovered(true);
-          }}
-          onMouseOut={() => {
-            setIsHovered(false);
+          onClick={() => {
+            if (findIndex(itemName, itemPreset) !== -1) {
+              setSelectedItemName(itemName);
+              OpenItemModal();
+            }
           }}
         >
           {itemImage(itemName, itemPreset)}
@@ -152,7 +163,13 @@ function EquipmentModal({ info }: MyComponentProps) {
   };
 
   const SelectedPreset = () => {
-    const itemPreset = tabInfo[selectedTab].preset;
+    let itemPreset;
+    if (selectedTab < 10) {
+      itemPreset = tabInfo[selectedTab - 1].preset;
+    } else {
+      itemPreset = info.item_equipment.item_equipment;
+    }
+
     return (
       <Container fluid style={{ textAlign: "center" }}>
         <Row className="grid-row">
@@ -207,19 +224,35 @@ function EquipmentModal({ info }: MyComponentProps) {
       style={{ width: "500px", margin: "auto" }}
     >
       <div className="equipment-modal-body">
-        <Nav style={{ justifyContent: "space-between", marginBottom: "10px" }}>
-          {tabInfo.map((tab) => (
-            <NavItem key={tab.index}>
-              <Button
-                variant={getButtonVariant(tab.index)}
-                onClick={() => handleTabClick(tab.index)}
-              >
-                {tab.label}
-              </Button>
-            </NavItem>
-          ))}
+        <Nav
+          style={{
+            justifyContent: "space-between",
+            margin: "auto",
+            marginBottom: "20px",
+            width: "400px",
+          }}
+        >
+          {selectedTab < 10 &&
+            tabInfo.map((tab) => (
+              <NavItem key={tab.index}>
+                <Button
+                  variant={getButtonVariant(tab.index)}
+                  onClick={() => handleTabClick(tab.index)}
+                >
+                  {tab.label}
+                </Button>
+              </NavItem>
+            ))}
         </Nav>
-        <SelectedPreset />
+        {SelectedPreset()}
+        <ItemCard
+          item={selectedItem(
+            selectedItemName,
+            selectedTab < 10
+              ? tabInfo[selectedTab - 1].preset
+              : info.item_equipment.item_equipment
+          )}
+        ></ItemCard>
       </div>
     </div>
   ) : null;

@@ -139,7 +139,7 @@ export interface ItemEquipment {
   cuttable_count: string;
   golden_hammer_flag: string;
   scroll_resilience_count: string;
-  scroll_upgradable_count: string;
+  scroll_upgradeable_count: string;
   soul_name: string;
   soul_option: string;
   item_etc_option: {
@@ -264,7 +264,7 @@ export const initialItemEquipment: ItemEquipment = {
   cuttable_count: "",
   golden_hammer_flag: "",
   scroll_resilience_count: "",
-  scroll_upgradable_count: "",
+  scroll_upgradeable_count: "",
   soul_name: "",
   soul_option: "",
   item_etc_option: {
@@ -828,6 +828,50 @@ export const initialHyperStatPreset: HyperStatPreset = {
   stat_increase: "",
 };
 
+export interface AbilityInfo {
+  ability_no: string;
+  ability_grade: string;
+  ability_value: string;
+}
+
+export const initialAbilityInfo: AbilityInfo = {
+  ability_no: "",
+  ability_grade: "",
+  ability_value: "",
+};
+
+export interface AbilityPreset {
+  ability_preset_grade: string;
+  ability_info: AbilityInfo[];
+}
+
+export const initialAbilityPreset: AbilityPreset = {
+  ability_preset_grade: "",
+  ability_info: [],
+};
+
+export interface Ability {
+  date: string;
+  ability_grade: string;
+  ability_info: AbilityInfo[];
+  remain_fame: number;
+  preset_no: number;
+  ability_preset_1: AbilityPreset;
+  ability_preset_2: AbilityPreset;
+  ability_preset_3: AbilityPreset;
+}
+
+export const initialAbility: Ability = {
+  date: "",
+  ability_grade: "",
+  ability_info: [],
+  remain_fame: 0,
+  preset_no: 1,
+  ability_preset_1: initialAbilityPreset,
+  ability_preset_2: initialAbilityPreset,
+  ability_preset_3: initialAbilityPreset,
+};
+
 export interface CharacterInfo {
   ocid: string;
   character_name: string;
@@ -847,6 +891,7 @@ export interface CharacterInfo {
   final_stat: FinalStat[];
   item_equipment: ItemEquipmentInfo;
   hyper_stat: HyperStat;
+  ability: Ability;
 }
 
 export const initialValue: CharacterInfo = {
@@ -906,8 +951,13 @@ export const initialValue: CharacterInfo = {
     mechanic_equipment: [],
   },
   hyper_stat: initialHyperStat,
+  ability: initialAbility,
 };
 
 export interface MyComponentProps {
   info: CharacterInfo;
+}
+
+export interface ItemEquipmentProps {
+  item: ItemEquipment;
 }

@@ -7,10 +7,17 @@ import {
   FinalStat,
   ItemEquipmentInfo,
   HyperStat,
+  Ability,
 } from "./DTO/CharacterInfo";
 const API_KEY = process.env.REACT_APP_NEXON_API_KEY;
 let day: Date = new Date();
-day.setDate(day.getDate() - 1);
+const currentHours: number = day.getHours();
+const currentMinutes: number = day.getMinutes();
+if (currentHours > 1 || (currentHours === 1 && currentMinutes > 0)) {
+  day.setDate(day.getDate() - 1);
+} else {
+  day.setDate(day.getDate() - 2);
+}
 
 const year = day.getFullYear();
 const month = (day.getMonth() + 1).toString().padStart(2, "0");
@@ -90,7 +97,7 @@ async function getUnionRanking(
 ): Promise<UnionRankingInfo> {
   try {
     const response = await fetch(
-      `https://open.api.nexon.com/maplestory/v1/ranking/union?date=2024-02-18&world_name=${encodeURIComponent(
+      `https://open.api.nexon.com/maplestory/v1/ranking/union?date=${yesterday}&world_name=${encodeURIComponent(
         world
       )}&ocid=${ocid}&page=1`,
       {
@@ -201,6 +208,24 @@ async function getHyperStatInfo(ocid: string): Promise<HyperStat> {
   }
 }
 
+async function getAbilityInfo(ocid: string): Promise<Ability> {
+  try {
+    const response = await fetch(
+      `https://open.api.nexon.com/maplestory/v1/character/ability?ocid=${ocid}&date=${yesterday}`,
+      {
+        headers: {
+          "x-nxopen-api-key": API_KEY,
+        },
+      }
+    );
+    return await response.json();
+  } catch (error) {
+    console.log("▶ 어빌리티 정보 에러");
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getTotalMapleInfo(
   characterName: string
 ): Promise<CharacterInfo> {
@@ -214,6 +239,8 @@ async function getTotalMapleInfo(
   const popularity = await getPopularity(ocid);
   const dojang_best_floor = await getDojang(ocid);
   const hyper_stat = await getHyperStatInfo(ocid);
+  const ability = await getAbilityInfo(ocid);
+
   console.log("▶ getTotalMapleInfo 요청 무사히 완료");
   return {
     ...initialValue,
@@ -235,6 +262,7 @@ async function getTotalMapleInfo(
     final_stat: finalStat,
     item_equipment: itemEquipment,
     hyper_stat: hyper_stat,
+    ability: ability,
   };
 }
 

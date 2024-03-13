@@ -7,11 +7,17 @@ import {
 import GoGo from "../../files/gogo.gif";
 import NoResult from "../../files/noresult.png";
 import CharacterCard from "./CharacterCard";
+import { useDispatch } from "react-redux";
+import {
+  setAbilityPreset,
+  setEquipmentPreset,
+} from "../../../../store/actions";
 
 function NewMethod() {
   const [info, setInfo] = useState<CharacterInfo>(initialValue);
   const [buttonClicked, setButtonClicked] = useState<boolean>(false);
   const [characterName, setCharacterName] = useState<string>("");
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
@@ -27,6 +33,9 @@ function NewMethod() {
   };
   const handleSubmit = (event: any) => {
     event.preventDefault(); // 폼 제출 기본 동작 방지
+
+    dispatch(setEquipmentPreset(255));
+    dispatch(setAbilityPreset(255));
     stateChange(); // 폼이 제출되면 stateChange 함수 호출
   };
 
